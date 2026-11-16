@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Register - AI Career Path Platform{% endblock %}
+
+{% block content %}
+<div style="max-width: 480px; margin: 30px auto;">
+  <div class="glass-card" style="padding: 36px 32px;">
+    <!-- Logo Badge & Header -->
+    <div style="text-align: center; margin-bottom: 28px;">
+      <div class="logo-badge" style="margin: 0 auto 14px; width: 44px; height: 44px; font-size: 1.2rem;">
+        AI
+      </div>
+      <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+        Join AI Career Path
+      </h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        Start your personalized journey toward top AI & Machine Learning careers
+      </p>
+    </div>
+
+    {% if error %}
+      <div class="alert alert-danger" id="register-error">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>{{ error }}</span>
+      </div>
+    {% endif %}
+
+    <form action="/register" method="POST" id="register-form">
+      <div class="form-group">
+        <label class="form-label" for="full_name">Full Name <small>(optional)</small></label>
+        <input 
+          type="text" 
+          id="full_name" 
+          name="full_name" 
+          class="form-control" 
+          value="{{ full_name or '' }}"
+          placeholder="e.g. Alex Chen"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="username">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          class="form-control" 
+          required 
+          value="{{ username or '' }}"
+          placeholder="alexchen"
+          autocomplete="username"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-control" 
+          required 
+          value="{{ email or '' }}"
+          placeholder="alex@example.com"
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label class="form-label" for="password" style="margin-bottom: 0;">Password <small>(at least 6 characters)</small></label>
+          <button type="button" class="toggle-password-btn" data-target-input="password" style="background: none; border: none; color: var(--primary); font-size: 0.82rem; font-weight: 700; cursor: pointer;">
+            Show
+          </button>
+        </div>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control" 
+          required 
+          placeholder="Enter at least 6 characters"
+          autocomplete="new-password"
+        >
+        <!-- Password Strength Meter -->
+        <div style="margin-top: 8px;">
+          <div class="progress-bar-container" style="height: 6px; margin: 4px 0;">
+            <div id="password-strength-bar" class="progress-bar-fill" style="width: 0%; background-color: var(--danger);"></div>
+          </div>
+          <small id="password-strength-text" style="color: var(--text-muted); font-size: 0.78rem;">Strength: Enter at least 6 characters</small>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 12px;" id="register-submit-btn">
+        <span>Create Account & Begin Assessment</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.92rem;">
+      Already have an account? <a href="/login" style="color: var(--primary); text-decoration: none; font-weight: 700;">Sign In</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const passInput = document.getElementById('password');
+    const strengthBar = document.getElementById('password-strength-bar');
+    const strengthText = document.getElementById('password-strength-text');
+
+    if (passInput && strengthBar && strengthText) {
+      passInput.addEventListener('input', function () {
+        const val = passInput.value;
+        let score = 0;
+        if (val.length >= 6) score += 25;
+        if (val.length >= 9) score += 25;
+        if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score += 25;
+        if (/[0-9]/.test(val) || /[^A-Za-z0-9]/.test(val)) score += 25;
+
+        strengthBar.style.width = score + '%';
+        if (score <= 25) {
+          strengthBar.style.backgroundColor = 'var(--danger)';
+          strengthText.textContent = 'Strength: Weak';
+          strengthText.style.color = 'var(--danger)';
+        } else if (score <= 50) {
+          strengthBar.style.backgroundColor = 'var(--warning)';
+          strengthText.textContent = 'Strength: Fair';
+          strengthText.style.color = 'var(--warning)';
+        } else if (score <= 75) {
+          strengthBar.style.backgroundColor = 'var(--secondary)';
+          strengthText.textContent = 'Strength: Good';
+          strengthText.style.color = 'var(--secondary)';
+        } else {
+          strengthBar.style.backgroundColor = 'var(--success)';
+          strengthText.textContent = 'Strength: Strong';
+          strengthText.style.color = 'var(--success)';
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block title %}AI Career Roadmap - {{ target_career }}{% endblock %}
+
+{% block content %}
+<div style="max-width: 1060px; margin: 20px auto;">
+  <!-- Header Banner -->
+  <div class="page-hero-banner" style="margin-bottom: 28px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <span class="badge badge-primary" style="margin-bottom: 8px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Structured AI Progression Architecture
+        </span>
+        <h1 style="font-size: 2.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+          {{ target_career }} Learning Roadmap
+        </h1>
+        <p style="color: var(--text-body); max-width: 700px; font-size: 1rem;">
+          Organized in 6 sequential progression tiers adhering strictly to topological prerequisite dependencies derived from the Career Knowledge Graph.
+        </p>
+      </div>
+
+      <div>
+        <a href="/learning/roadmap?ai_guidance=true" class="btn btn-generate" id="generate-ai-guidance-btn">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span>Generate Gemma 3:1B AI Guidance</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Generated Guidance Section (Light Theme, Zero Gradients, Zero Emojis) -->
+  {% if fetch_ai %}
+    {% if ai_guidance %}
+      <div class="glass-card" style="margin-bottom: 32px; border: 1px solid var(--accent-border); background-color: #ffffff; border-left: 6px solid var(--accent);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <svg class="icon icon-lg" style="color: var(--accent);" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--accent); margin: 0;">
+              Gemma 3:1B Personalized Study Guidance
+            </h3>
+          </div>
+          <span class="badge" style="background-color: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Local LLM Synthesized
+          </span>
+        </div>
+
+        <p style="color: var(--text-body); font-size: 1.05rem; margin-bottom: 24px; line-height: 1.7;">
+          {{ ai_guidance.career_summary }}
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 24px;">
+          <div style="background-color: var(--bg-page); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <h4 style="font-size: 1rem; color: var(--accent); font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Recommended Study Strategy
+            </h4>
+            <ul style="padding-left: 18px; color: var(--text-body); font-size: 0.95rem;">
+              {% for step in ai_guidance.custom_study_strategy %}
+                <li style="margin-bottom: 8px;">{{ step }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div style="background-color: var(--bg-page); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <h4 style="font-size: 1rem; color: var(--secondary); font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+              Curated Tutorial Focus
+            </h4>
+            <ul style="list-style: none; padding-left: 0;">
+              {% for tut in ai_guidance.recommended_tutorials %}
+                <li style="background-color: #ffffff; padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 8px; border: 1px solid var(--border-color);">
+                  <strong style="color: var(--text-main); font-size: 0.95rem;">{{ tut.title }}</strong>
+                  <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;">{{ tut.platform }} &bull; {{ tut.focus }}</div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div style="background-color: var(--bg-page); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+          <h4 style="font-size: 1rem; color: var(--success); font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Capstone Portfolio Standout Ideas
+          </h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            {% for cap in ai_guidance.recommended_capstone_enhancements %}
+              <span class="badge badge-mastered" style="font-size: 0.85rem; padding: 6px 12px; text-transform: none; display: inline-flex; align-items: center; gap: 6px;">
+                <svg class="icon icon-sm icon-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                {{ cap }}
+              </span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% elif ai_error %}
+      <div class="alert alert-danger" style="margin-bottom: 32px;">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>
+          <strong>Gemma 3:1B Service Notice:</strong> {{ ai_error }}
+          <div style="margin-top: 8px;">
+            <a href="/learning/roadmap?ai_guidance=true" class="btn btn-generate btn-sm">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              <span>Retry Gemma AI Generation</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+
+  <!-- Interactive Controls: Filter & Search Bar -->
+  <div class="glass-card" style="margin-bottom: 24px; padding: 18px 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+      <!-- Interactive Filter Pills -->
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <div class="filter-pill-bar" data-filter-group data-filter-target=".roadmap-module-item" style="margin-bottom: 0;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-right: 4px;">Status Filter:</span>
+          <button type="button" class="filter-pill active" data-filter-value="all">All Concepts</button>
+          <button type="button" class="filter-pill" data-filter-value="mastered">Mastered</button>
+          <button type="button" class="filter-pill" data-filter-value="developing">Developing</button>
+          <button type="button" class="filter-pill" data-filter-value="weak">Weak</button>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar & Tier Controls -->
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <div class="search-input-wrapper" style="width: 220px;">
+          <input 
+            type="text" 
+            placeholder="Search concepts or skills..." 
+            class="form-control" 
+            id="roadmap-search-input"
+            style="padding: 7px 12px; font-size: 0.88rem;" 
+            data-search-target=".roadmap-module-item"
+          >
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-all-tiers">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="7 13 12 18 17 13"/><polyline points="7 6 12 11 17 6"/></svg>
+          <span id="toggle-all-tiers-text">Collapse Tiers</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6-Tier Roadmap Display (Light Cards with Rich Micro-Interactions) -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    {% for stage in roadmap.stages %}
+      {% set tier_num = loop.index %}
+      <div class="glass-card roadmap-stage-card" id="stage-card-{{ tier_num }}">
+        <!-- Interactive Stage Header with Accordion Toggle & Live Counter -->
+        <div class="roadmap-stage-header" data-toggle-stage="stage-body-{{ tier_num }}">
+          <div class="stage-header-left">
+            <button type="button" class="stage-toggle-btn" aria-label="Toggle Tier {{ tier_num }}" id="stage-toggle-btn-{{ tier_num }}">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div>
+              <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 8px;">
+                {{ stage.stage_name }}
+              </h3>
+              <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">
+                Tier {{ tier_num }} of 6 &bull; <span class="stage-completed-counter" data-tier="{{ tier_num }}">0 / {{ stage.modules | length if stage.modules else 0 }} Studied</span>
+              </span>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge badge-secondary">
+              {{ stage.modules | length if stage.modules else 0 }} Modules
+            </span>
+          </div>
+        </div>
+
+        <!-- Solid Progress Track for this Tier -->
+        <div class="stage-progress-wrapper">
+          <div class="stage-progress-bar">
+            <div class="stage-progress-fill" id="stage-fill-{{ tier_num }}" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Tier Modules Container -->
+        <div class="stage-modules-container" id="stage-body-{{ tier_num }}">
+          {% if stage.modules %}
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              {% for itm in stage.modules %}
+                <div class="roadmap-module-item status-{{ itm.current_status or 'unassessed' }}" data-category="{{ itm.current_status or 'unassessed' }}" data-tier="{{ tier_num }}">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+                    <div style="max-width: 680px; flex: 1; min-width: 280px;">
+                      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+                        <!-- Interactive Checkbox to track study session -->
+                        <label class="module-check-label" title="Mark as studied in this session">
+                          <input type="checkbox" class="module-study-check" data-concept-id="{{ itm.concept_id }}" data-tier="{{ tier_num }}">
+                          <span class="module-check-box">
+                            <svg class="icon icon-sm check-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                          </span>
+                        </label>
+
+                        <span class="module-title-text" style="font-weight: 800; font-size: 1.05rem; color: var(--text-main);">
+                          {{ itm.title }}
+                        </span>
+
+                        <!-- Interactive Copy Concept Name Button -->
+                        <button type="button" class="btn-copy-concept" data-copy="{{ itm.title }}" title="Copy concept title">
+                          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+
+                        {% if itm.priority %}
+                          <span class="badge {% if itm.priority == 'High' %}badge-mastered{% elif itm.priority == 'Medium' %}badge-developing{% else %}badge-weak{% endif %}">
+                            {{ itm.priority }} Priority
+                          </span>
+                        {% endif %}
+                        {% if itm.current_status %}
+                          <span class="badge {% if itm.current_status == 'mastered' %}badge-mastered{% elif itm.current_status == 'developing' %}badge-developing{% elif itm.current_status == 'weak' %}badge-weak{% else %}badge-unassessed{% endif %}">
+                            {{ itm.current_status | upper }}
+                          </span>
+                        {% endif %}
+                      </div>
+
+                      <p style="color: var(--text-body); font-size: 0.92rem; margin-bottom: 8px; line-height: 1.5;">
+                        {{ itm.reason or itm.description }}
+                      </p>
+
+                      <!-- Interactive Details & Quick Quiz Expander -->
+                      <button type="button" class="btn-toggle-module-details" data-drawer-target="drawer-{{ tier_num }}-{{ loop.index }}">
+                        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        <span>Focus Details & Quick Assessment</span>
+                        <svg class="icon icon-sm chevron-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                      </button>
+                    </div>
+
+                    {% if itm.concept_id %}
+                      <div style="display: flex; gap: 8px; flex-shrink: 0; align-items: center; flex-wrap: wrap;">
+                        <a href="/learning/concept/{{ itm.concept_id }}" class="btn btn-secondary btn-sm" id="study-concept-{{ itm.concept_id }}">
+                          <span>Study Concept</span>
+                          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                        <a href="/assessment/quiz/{{ itm.concept_id }}?count=5" class="btn btn-primary btn-sm" id="quiz-concept-{{ itm.concept_id }}">
+                          <span>Take Quiz (5 Qs)</span>
+                          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        </a>
+                      </div>
+                    {% endif %}
+                  </div>
+
+                  <!-- Collapsible Details Drawer with Interactive Prerequisite Search -->
+                  <div class="module-details-drawer" id="drawer-{{ tier_num }}-{{ loop.index }}">
+                    {% if itm.prerequisites %}
+                      <div style="margin-bottom: 12px;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 6px;">
+                          Prerequisite Competencies (Click to Find in Roadmap):
+                        </span>
+                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                          {% for pr in itm.prerequisites %}
+                            <button type="button" class="prereq-clickable-pill" data-prereq-search="{{ pr }}" title="Find in Roadmap">
+                              <svg class="icon icon-sm" style="color: var(--warning);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                              <span>{{ pr }}</span>
+                            </button>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-top: 10px; border-top: 1px solid var(--border-color);">
+                      <div style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">
+                        Practice Length Options:
+                      </div>
+                      <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <a href="/assessment/quiz/{{ itm.concept_id }}?count=3" class="quick-quiz-pill">3 Qs (Quick Check)</a>
+                        <a href="/assessment/quiz/{{ itm.concept_id }}?count=5" class="quick-quiz-pill" style="background-color: var(--primary-light);">5 Qs (Standard)</a>
+                        <a href="/assessment/quiz/{{ itm.concept_id }}?count=10" class="quick-quiz-pill">10 Qs (Deep Assessment)</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div style="text-align: center; padding: 24px; color: var(--text-muted); background-color: var(--bg-page); border-radius: var(--radius-sm); border: 1px dashed var(--border-color);">
+              All competencies in this tier completed or no direct items pending.
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

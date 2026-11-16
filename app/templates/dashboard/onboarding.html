@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to AI Career Path Platform{% endblock %}
+
+{% block content %}
+<div style="max-width: 760px; margin: 30px auto;">
+  <div class="glass-card" style="padding: 44px 40px; text-align: center;">
+    <!-- Thematic Badge -->
+    <div style="width: 64px; height: 64px; border-radius: var(--radius-md); background-color: var(--primary-light); color: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; border: 1px solid var(--primary-border);">
+      <svg class="icon icon-xl" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    </div>
+    
+    <h1 style="font-size: 2.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 12px;">
+      Welcome to AI Career Path, {{ user.full_name or user.username }}!
+    </h1>
+    
+    <p style="color: var(--text-body); font-size: 1.05rem; max-width: 580px; margin: 0 auto 32px; line-height: 1.6;">
+      Unlock your personalized learning path, adaptive Bayesian quizzes, and 6-tier career progression roadmap by completing our rapid 21-question AI career assessment.
+    </p>
+
+    <!-- Interactive Onboarding Step Milestones -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 36px; text-align: left;">
+      <div style="background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+        <span class="badge badge-mastered" style="margin-bottom: 8px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Step 1 &bull; Completed
+        </span>
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Account Created</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Profile registered and ready for evaluation.</p>
+      </div>
+
+      <div style="background-color: var(--primary-light); border: 1px solid var(--primary-border); border-radius: var(--radius-md); padding: 18px;">
+        <span class="badge badge-primary" style="margin-bottom: 8px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="12 8 8 12 12 16 12 8"/></svg>
+          Step 2 &bull; Active
+        </span>
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 4px;">Career Assessment</h4>
+        <p style="font-size: 0.85rem; color: var(--text-body); margin: 0;">21 rapid questions to classify your target role.</p>
+      </div>
+
+      <div style="background-color: var(--bg-page); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px;">
+        <span class="badge badge-unassessed" style="margin-bottom: 8px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          Step 3 &bull; Next
+        </span>
+        <h4 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Adaptive Roadmap</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Unlock 6 progression tiers and AI quizzes.</p>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+      <a href="/career/assessment" class="btn btn-primary btn-lg" id="onboarding-start-assessment">
+        <span>Take AI Career Assessment Now</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+      <a href="/profile" class="btn btn-secondary btn-lg" id="onboarding-complete-profile">
+        Complete Learner Profile
+      </a>
+    </div>
+
+    {% if latest_prediction %}
+      <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-color); text-align: left;">
+        <p style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; font-weight: 700; margin-bottom: 10px;">
+          Previous Assessment Available
+        </p>
+        <div style="display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-page); padding: 14px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); flex-wrap: wrap; gap: 12px;">
+          <div>
+            <strong style="color: var(--text-main); font-size: 1.1rem;">{{ latest_prediction.predicted_career }}</strong>
+            <span style="color: var(--text-muted); font-size: 0.9rem; margin-left: 8px;">({{ (latest_prediction.confidence_score * 100) | round(1) }}% confidence score)</span>
+          </div>
+          <a href="/career/prediction/{{ latest_prediction.id }}" class="btn btn-secondary btn-sm">
+            <span>Review Career Decision</span>
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

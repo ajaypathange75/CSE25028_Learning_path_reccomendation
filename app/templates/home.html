@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %}AI Career Path - Recommendation & Personalized Learning Platform{% endblock %}
+
+{% block content %}
+<!-- Hero Section (Light Theme with AI Career Path Imagery & Content) -->
+<div class="page-hero-banner" style="padding: 48px 40px; margin-bottom: 40px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 36px; align-items: center;">
+    <div>
+      <span class="badge badge-primary" style="padding: 6px 14px; margin-bottom: 16px; font-size: 0.82rem;">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        Next-Generation AI Career Intelligence
+      </span>
+      <h1 style="font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text-main); margin-bottom: 16px; line-height: 1.15;">
+        Discover Your Optimal <span style="color: var(--primary);">AI Career Path</span>.<br>Master Every Skill Step-by-Step.
+      </h1>
+      <p style="font-size: 1.15rem; color: var(--text-body); margin-bottom: 28px; line-height: 1.6;">
+        An intelligent career trajectory platform combining Machine Learning career prediction, prerequisite-aware Knowledge Graphs, Bayesian Knowledge Tracing (BKT), and Gemma 3:1B AI tutoring.
+      </p>
+      
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <a href="/register" class="btn btn-primary btn-lg" id="hero-get-started">
+          <span>Start AI Career Assessment</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+        <a href="/login" class="btn btn-secondary btn-lg" id="hero-login">
+          Sign In to Dashboard
+        </a>
+      </div>
+
+      <!-- Quick Trust Indicators -->
+      <div style="display: flex; gap: 24px; margin-top: 32px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+        <div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: var(--primary);">21+</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Assessment Dimensions</div>
+        </div>
+        <div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: var(--secondary);">6 Tiers</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Structured Roadmaps</div>
+        </div>
+        <div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: var(--success);">BKT Driven</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Adaptive Mastery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Career Path Hero Visual Preview -->
+    <div style="text-align: center;">
+      <div style="background-color: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 12px; box-shadow: var(--shadow-card);">
+        <img 
+          src="/static/images/ai_career_hero.jpg" 
+          alt="AI Career Path Progression Roadmap & Skills Assessment" 
+          style="width: 100%; height: auto; border-radius: var(--radius-md); display: block;"
+        >
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 8px 4px; font-size: 0.82rem; color: var(--text-muted);">
+          <span>AI Career Progression & Skill Matrix</span>
+          <span class="badge badge-secondary">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Knowledge Graph Verified
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Interactive Module 1: AI Career Roles Interactive Explorer -->
+<div class="glass-card" style="margin-bottom: 40px;" data-tabs-group>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+    <div>
+      <span class="badge badge-secondary" style="margin-bottom: 8px;">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="12 8 8 12 12 16 12 8"/></svg>
+        Explore Trajectories
+      </span>
+      <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);">
+        Target AI Career Paths & Competency Frameworks
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        Click on any career role below to inspect key responsibilities, prerequisite core competencies, and career roadmap tiers.
+      </p>
+    </div>
+  </div>
+
+  <!-- Interactive Career Role Tabs -->
+  <div class="nav-tabs">
+    <div class="nav-tab-item active" data-tab-target="role-mle">Machine Learning Engineer</div>
+    <div class="nav-tab-item" data-tab-target="role-ds">Data Scientist</div>
+    <div class="nav-tab-item" data-tab-target="role-air">AI Research Scientist</div>
+    <div class="nav-tab-item" data-tab-target="role-nlp">NLP & LLM Specialist</div>
+    <div class="nav-tab-item" data-tab-target="role-cv">Computer Vision Engineer</div>
+  </div>
+
+  <!-- Tab Pane 1: Machine Learning Engineer -->
+  <div class="tab-pane" id="role-mle" style="display: block;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">Role Overview</h3>
+        <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+          Builds, optimizes, and deploys production machine learning pipelines, scalable model inference servers, and automated MLOps monitoring.
+        </p>
+        <div style="background-color: var(--bg-page-subtle); padding: 14px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+          <strong style="font-size: 0.88rem; color: var(--text-main); display: block; margin-bottom: 6px;">Prerequisites & Foundation:</strong>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Python, Linear Algebra, Scikit-Learn, PyTorch, Docker, CI/CD for ML.</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">6-Tier Career Progression</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem; display: flex; justify-content: space-between;">
+            <span>Tier 1: Programming & Math Foundations</span>
+            <span class="badge badge-mastered">Core</span>
+          </li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem; display: flex; justify-content: space-between;">
+            <span>Tier 2: Supervised & Unsupervised Algorithms</span>
+            <span class="badge badge-primary">Intermediate</span>
+          </li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem; display: flex; justify-content: space-between;">
+            <span>Tier 3: Deep Neural Architectures & PyTorch</span>
+            <span class="badge badge-secondary">Advanced</span>
+          </li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem; display: flex; justify-content: space-between;">
+            <span>Tier 4: Distributed Training & Production MLOps</span>
+            <span class="badge badge-developing">Capstone</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Pane 2: Data Scientist -->
+  <div class="tab-pane" id="role-ds" style="display: none;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--secondary); margin-bottom: 8px;">Role Overview</h3>
+        <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+          Extracts strategic business intelligence, formulates probabilistic models, conducts rigorous hypothesis testing, and builds predictive analytics dashboards.
+        </p>
+        <div style="background-color: var(--bg-page-subtle); padding: 14px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+          <strong style="font-size: 0.88rem; color: var(--text-main); display: block; margin-bottom: 6px;">Prerequisites & Foundation:</strong>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">SQL, Exploratory Data Analysis, Bayesian Statistics, Feature Engineering, Tableau.</span>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Key Milestones</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Statistical Inference & Probability Distributions</li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">High-dimensional Data Cleansing & EDA</li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Ensemble Trees (CatBoost, XGBoost, Random Forests)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Pane 3: AI Research Scientist -->
+  <div class="tab-pane" id="role-air" style="display: none;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--accent); margin-bottom: 8px;">Role Overview</h3>
+        <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+          Pioneers novel neural architectures, generative modeling algorithms, reinforcement learning policies, and publishes research advancements.
+        </p>
+      </div>
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Key Milestones</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Advanced Calculus, Matrix Decompositions & Optimization</li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Attention Mechanisms & Transformer Theory</li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Diffusion Models & Reinforcement Learning from Human Feedback (RLHF)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Pane 4: NLP Specialist -->
+  <div class="tab-pane" id="role-nlp" style="display: none;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 8px;">Role Overview</h3>
+        <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+          Specializes in Large Language Models (LLMs), tokenization, semantic search embeddings, retrieval-augmented generation (RAG), and vector databases.
+        </p>
+      </div>
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Key Milestones</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Text Preprocessing, Tokenization & Word2Vec</li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Dense Vector Indexing & RAG Pipelines</li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">LoRA / QLoRA Fine-Tuning & Quantization</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Pane 5: Computer Vision Engineer -->
+  <div class="tab-pane" id="role-cv" style="display: none;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--secondary); margin-bottom: 8px;">Role Overview</h3>
+        <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">
+          Develops high-speed image and video recognition pipelines, convolutional networks, object detection (YOLO), and 3D point cloud perception.
+        </p>
+      </div>
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Key Milestones</h3>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Image Processing, Filters & OpenCV</li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">CNN Architectures, ResNet & Transfer Learning</li>
+          <li style="padding: 8px 12px; background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-sm); margin-bottom: 6px; font-size: 0.88rem;">Real-time Edge Deployment with TensorRT</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Four Pillars of the AI Career Path System (with Modern Vector Icons) -->
+<div class="metrics-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 40px;">
+  <div class="glass-card">
+    <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background-color: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--primary-border);">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+    </div>
+    <h3 style="font-size: 1.2rem; margin-bottom: 10px; font-weight: 800; color: var(--text-main);">ML Career Prediction</h3>
+    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.6;">
+      Trained Voting Classifier predicting your optimal AI career path from 21 psychological, academic, and technical assessment dimensions.
+    </p>
+  </div>
+
+  <div class="glass-card">
+    <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background-color: var(--secondary-light); color: var(--secondary); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--secondary-border);">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    </div>
+    <h3 style="font-size: 1.2rem; margin-bottom: 10px; font-weight: 800; color: var(--text-main);">Career Knowledge Graph</h3>
+    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.6;">
+      Explicit structural dependencies connecting Careers, Skills, Concepts, and Prerequisites to ensure concepts are mastered in topological sequence.
+    </p>
+  </div>
+
+  <div class="glass-card">
+    <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background-color: var(--success-light); color: var(--success); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--success-border);">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </div>
+    <h3 style="font-size: 1.2rem; margin-bottom: 10px; font-weight: 800; color: var(--text-main);">Bayesian Knowledge Tracing</h3>
+    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.6;">
+      Mathematical estimation of latent mastery using probabilities of learning, slipping, and guessing after every assessment attempt.
+    </p>
+  </div>
+
+  <div class="glass-card">
+    <div style="width: 48px; height: 48px; border-radius: var(--radius-sm); background-color: var(--accent-light); color: var(--accent); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; border: 1px solid var(--accent-border);">
+      <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+    </div>
+    <h3 style="font-size: 1.2rem; margin-bottom: 10px; font-weight: 800; color: var(--text-main);">Gemma 3:1B AI Guidance</h3>
+    <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.6;">
+      Integrated local LLM serving structured roadmap enrichment, contextual concept explanations, and on-demand interactive multiple-choice quizzes.
+    </p>
+  </div>
+</div>
+
+<!-- Interactive FAQ Accordion -->
+<div class="glass-card" style="margin-bottom: 40px;">
+  <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-bottom: 18px;">
+    Frequently Asked Questions About AI Career Path
+  </h2>
+
+  <div class="accordion-item">
+    <div class="accordion-header">
+      <span>How does the AI Career Path Recommendation model work?</span>
+      <svg class="icon accordion-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="accordion-content" style="display: none;">
+      <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6;">
+        The system evaluates 21 individual dimensions spanning personality traits (Big Five), academic track record, coding fluency, problem-solving, and career preferences. These dimensions feed into an ensemble Voting Classifier trained on multi-dimensional learner profiles to output calibrated probability distributions across multiple AI and tech careers.
+      </p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header">
+      <span>What is Bayesian Knowledge Tracing (BKT) and why is it used?</span>
+      <svg class="icon accordion-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="accordion-content" style="display: none;">
+      <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6;">
+        Unlike simple static test scores, BKT is an established psychometric model that calculates the probability that a learner has genuinely internalized a concept. It mathematically accounts for chance guesses and accidental slips, continuously updating your mastery state as you practice.
+      </p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <div class="accordion-header">
+      <span>Can I change my target career or explore alternatives?</span>
+      <svg class="icon accordion-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="accordion-content" style="display: none;">
+      <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6;">
+        Yes! After reviewing your recommendation, you can accept the primary prediction or inspect alternative careers with high affinity scores, or retake the assessment at any time from your dashboard.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Call to Action Banner -->
+<div class="page-hero-banner" style="text-align: center; padding: 48px 32px;">
+  <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 12px;">
+    Ready to Chart Your AI Career Path?
+  </h2>
+  <p style="color: var(--text-body); font-size: 1.1rem; max-width: 620px; margin: 0 auto 24px;">
+    Complete your 21-question assessment in under 5 minutes to unlock your personalized AI roadmap.
+  </p>
+  <a href="/register" class="btn btn-primary btn-lg">
+    <span>Create Account & Begin Assessment</span>
+    <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+  </a>
+</div>
+{% endblock %}

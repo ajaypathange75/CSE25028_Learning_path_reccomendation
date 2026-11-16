@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Alternative Career Recommendations - AI Career Path{% endblock %}
+
+{% block content %}
+<div style="max-width: 980px; margin: 30px auto;">
+  <!-- Header -->
+  <div class="page-hero-banner" style="text-align: center; padding: 36px 30px; margin-bottom: 28px;">
+    <span class="badge badge-developing" style="margin-bottom: 12px; font-size: 0.85rem; padding: 6px 14px;">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Secondary Alignment Trajectories
+    </span>
+    <h1 style="font-size: 2.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">
+      Explore Alternative AI Career Paths
+    </h1>
+    <p style="color: var(--text-body); max-width: 650px; margin: 0 auto 16px;">
+      Based on your assessment responses and secondary probability alignments, here are the top alternative careers. Select your preferred target career below to configure your 6-tier roadmap.
+    </p>
+
+    <!-- Interactive Career Filter Input -->
+    <div style="max-width: 360px; margin: 0 auto;">
+      <div class="search-input-wrapper">
+        <input 
+          type="text" 
+          placeholder="Search alternative careers or skills..." 
+          class="form-control" 
+          data-search-target=".alternative-career-card"
+        >
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    {% for alt in alternatives %}
+      <div class="glass-card alternative-career-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <h2 style="font-size: 1.45rem; font-weight: 800; color: var(--text-main); margin: 0;">
+              {{ alt.career_name }}
+            </h2>
+            <span class="badge badge-primary" style="font-size: 0.82rem; padding: 6px 14px;">
+              Affinity Score: {{ (alt.relative_affinity_score * 100) | round(1) }}%
+            </span>
+          </div>
+          
+          <p style="color: var(--text-body); font-size: 0.98rem; line-height: 1.6; margin-bottom: 16px;">
+            {{ alt.overview }}
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+            {% for s in alt.skills %}
+              <span style="background-color: var(--bg-page); border: 1px solid var(--border-color); padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-main); font-weight: 600;">
+                {{ s }}
+              </span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 16px; display: flex; justify-content: flex-end;">
+          <form action="/career/select-alternative" method="POST">
+            <input type="hidden" name="prediction_id" value="{{ prediction.id }}">
+            <input type="hidden" name="selected_career" value="{{ alt.career_name }}">
+            <button type="submit" class="btn btn-primary" id="select-alt-{{ loop.index }}">
+              <span>Select {{ alt.career_name }} as Active Target Career</span>
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div style="text-align: center; margin-top: 36px;">
+    <a href="/career/assessment" class="btn btn-secondary">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Retake Full Career Assessment</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

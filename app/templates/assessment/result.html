@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block title %}Assessment Results: {{ summary.concept_name }} - AI Career Path{% endblock %}
+
+{% block extra_css %}
+<style>
+  .score-banner {
+    text-align: center;
+    padding: 36px 28px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    background-color: #ffffff;
+    box-shadow: var(--shadow-card);
+  }
+  .score-badge-circle {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .review-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .review-card.correct {
+    border-left: 5px solid var(--success);
+  }
+  .review-card.incorrect {
+    border-left: 5px solid var(--danger);
+  }
+  .choice-box {
+    background-color: var(--bg-page);
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+  }
+  .retake-pill {
+    padding: 8px 18px;
+    border-radius: 9999px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text-muted);
+    background-color: var(--bg-page);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+  }
+  .retake-pill:hover {
+    color: var(--primary);
+    border-color: var(--primary-border);
+    background-color: var(--primary-light);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="max-width: 880px; margin: 24px auto;">
+  <!-- Overall Score Banner (Light Theme, Zero Gradients, Zero Emojis) -->
+  <div class="score-banner" style="{% if summary.score_pct >= 70 %}border: 2px solid var(--success-border); border-top: 6px solid var(--success);{% elif summary.score_pct >= 40 %}border: 2px solid var(--warning-border); border-top: 6px solid var(--warning);{% else %}border: 2px solid var(--danger-border); border-top: 6px solid var(--danger);{% endif %}">
+    <div class="score-badge-circle" style="{% if summary.score_pct >= 70 %}background-color: var(--success-light); color: var(--success); border: 2px solid var(--success-border);{% elif summary.score_pct >= 40 %}background-color: var(--warning-light); color: var(--warning); border: 2px solid var(--warning-border);{% else %}background-color: var(--danger-light); color: var(--danger); border: 2px solid var(--danger-border);{% endif %}">
+      {% if summary.score_pct >= 70 %}
+        <svg class="icon icon-xl" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      {% elif summary.score_pct >= 40 %}
+        <svg class="icon icon-xl" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      {% else %}
+        <svg class="icon icon-xl" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      {% endif %}
+    </div>
+
+    <h1 style="font-size: 2.4rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+      {{ summary.correct_count }} / {{ summary.total_questions }} Correct ({{ summary.score_pct }}%)
+    </h1>
+
+    <p style="color: var(--text-body); font-size: 1.1rem; margin-bottom: 8px;">
+      Evaluated Concept: <strong style="color: var(--text-main);">{{ summary.concept_name }}</strong>
+    </p>
+
+    <div style="margin-top: 12px;">
+      {% if summary.score_pct == 100 %}
+        <span class="badge badge-mastered" style="font-size: 0.95rem; padding: 6px 18px; display: inline-flex; align-items: center; gap: 6px;">
+          <svg class="icon icon-sm icon-fill" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Perfect Score! Full Concept Mastery Demonstrated
+        </span>
+      {% elif summary.score_pct >= 70 %}
+        <span class="badge badge-mastered" style="font-size: 0.95rem; padding: 6px 18px; display: inline-flex; align-items: center; gap: 6px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Great Performance! Strong Conceptual Grasp
+        </span>
+      {% elif summary.score_pct >= 40 %}
+        <span class="badge badge-developing" style="font-size: 0.95rem; padding: 6px 18px; display: inline-flex; align-items: center; gap: 6px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Developing Understanding. Review missed questions below
+        </span>
+      {% else %}
+        <span class="badge badge-weak" style="font-size: 0.95rem; padding: 6px 18px; display: inline-flex; align-items: center; gap: 6px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Needs Review. Recommended to revisit study resources
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- BKT State Progression Card -->
+  <div class="glass-card" style="margin-bottom: 24px;">
+    <h3 style="font-size: 1.15rem; color: var(--secondary); font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Bayesian Knowledge Tracing (BKT) State Update
+    </h3>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+      <div class="choice-box">
+        <div style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">
+          Prior Knowledge P(L<sub>initial</sub>)
+        </div>
+        <div style="font-size: 1.6rem; font-weight: 800; color: var(--text-muted); margin-top: 4px;">
+          {{ summary.initial_bkt }}
+        </div>
+      </div>
+
+      <div class="choice-box">
+        <div style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">
+          Updated Knowledge P(L<sub>posterior</sub>)
+        </div>
+        <div style="font-size: 1.6rem; font-weight: 800; {% if summary.final_bkt >= summary.initial_bkt %}color: var(--success);{% else %}color: var(--danger);{% endif %} margin-top: 4px;">
+          {{ summary.final_bkt }}
+        </div>
+      </div>
+
+      <div class="choice-box">
+        <div style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">
+          Competency State
+        </div>
+        <div style="font-size: 1.1rem; font-weight: 800; margin-top: 6px;">
+          <span class="badge {% if summary.competency_status == 'mastered' %}badge-mastered{% elif summary.competency_status == 'developing' %}badge-developing{% elif summary.competency_status == 'weak' %}badge-weak{% else %}badge-unassessed{% endif %}" style="padding: 6px 14px;">
+            {{ summary.competency_status | upper }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Question Filter Pills -->
+  <div class="glass-card" style="margin-bottom: 20px; padding: 14px 20px;">
+    <div class="filter-pill-bar" data-filter-group data-filter-target=".review-card" style="margin-bottom: 0;">
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-right: 6px;">Filter Questions:</span>
+      <button type="button" class="filter-pill active" data-filter-value="all">All ({{ summary.total_questions }})</button>
+      <button type="button" class="filter-pill" data-filter-value="correct">Correct ({{ summary.correct_count }})</button>
+      <button type="button" class="filter-pill" data-filter-value="incorrect">Incorrect ({{ summary.total_questions - summary.correct_count }})</button>
+    </div>
+  </div>
+
+  <!-- Detailed Question Breakdown -->
+  <div style="margin-bottom: 24px;">
+    <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 18px; color: var(--text-main);">
+      Question-by-Question Detailed Review
+    </h3>
+
+    {% for rev in summary.question_reviews %}
+      <div class="review-card {% if rev.is_correct %}correct{% else %}incorrect{% endif %}" data-category="{% if rev.is_correct %}correct{% else %}incorrect{% endif %}">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 0.9rem; font-weight: 800; color: {% if rev.is_correct %}var(--success){% else %}var(--danger){% endif %}; display: inline-flex; align-items: center; gap: 6px;">
+            {% if rev.is_correct %}
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Question {{ rev.q_idx }} - Correct</span>
+            {% else %}
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <span>Question {{ rev.q_idx }} - Incorrect</span>
+            {% endif %}
+          </span>
+          <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600;">
+            BKT Shift: {{ rev.bkt_prior }} &rarr; <strong style="color: var(--text-main);">{{ rev.bkt_posterior }}</strong>
+          </span>
+        </div>
+
+        <p style="font-size: 1.05rem; line-height: 1.6; color: var(--text-main); font-weight: 700; margin-bottom: 16px;">
+          {{ rev.question }}
+        </p>
+
+        <!-- Selected vs Correct Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 16px;">
+          <div class="choice-box" style="{% if rev.is_correct %}border-color: var(--success-border);{% else %}border-color: var(--danger-border);{% endif %}">
+            <small style="color: var(--text-muted); text-transform: uppercase; font-weight: 700; font-size: 0.75rem;">Your Selected Choice</small>
+            <div style="font-size: 0.95rem; font-weight: 700; margin-top: 4px; {% if rev.is_correct %}color: var(--success);{% else %}color: var(--danger);{% endif %}">
+              Option {{ rev.user_choice }}: {{ rev.options.get(rev.user_choice, "No answer selected") }}
+            </div>
+          </div>
+
+          <div class="choice-box" style="border-color: var(--success-border);">
+            <small style="color: var(--text-muted); text-transform: uppercase; font-weight: 700; font-size: 0.75rem;">Correct Answer</small>
+            <div style="font-size: 0.95rem; font-weight: 700; margin-top: 4px; color: var(--success);">
+              Option {{ rev.correct_option }}: {{ rev.options.get(rev.correct_option, "") }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Explanation -->
+        {% if rev.explanation %}
+          <div style="background-color: var(--primary-light); border: 1px solid var(--primary-border); padding: 14px 18px; border-radius: var(--radius-sm);">
+            <h5 style="font-size: 0.88rem; color: var(--primary-text); font-weight: 800; margin-bottom: 4px;">Technical Explanation:</h5>
+            <p style="color: var(--text-body); font-size: 0.92rem; line-height: 1.55; margin: 0;">
+              {{ rev.explanation }}
+            </p>
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Retake Options Card -->
+  <div class="glass-card" style="margin-bottom: 24px; padding: 22px 28px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+      <div>
+        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px;">
+          Retake Assessment with Customized Question Count:
+        </h4>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+          Practice with randomized question combinations to continuously update your BKT latent score.
+        </span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="/assessment/quiz/{{ summary.concept_id }}?count=3" class="retake-pill" id="retake-3-btn">3 Questions</a>
+        <a href="/assessment/quiz/{{ summary.concept_id }}?count=5" class="retake-pill" id="retake-5-btn">5 Questions</a>
+        <a href="/assessment/quiz/{{ summary.concept_id }}?count=8" class="retake-pill" id="retake-8-btn">8 Questions</a>
+        <a href="/assessment/quiz/{{ summary.concept_id }}?count=10" class="retake-pill" id="retake-10-btn">10 Questions</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Action Buttons -->
+  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+    <a href="/learning/concept/{{ summary.concept_id }}" class="btn btn-secondary" id="result-back-concept-btn" style="display: inline-flex; align-items: center; gap: 6px;">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Review Concept Study Materials</span>
+    </a>
+    <a href="/dashboard" class="btn btn-primary" id="result-dashboard-btn" style="display: inline-flex; align-items: center; gap: 6px;">
+      <span>Return to AI Career Dashboard</span>
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </a>
+  </div>
+</div>
+{% endblock %}

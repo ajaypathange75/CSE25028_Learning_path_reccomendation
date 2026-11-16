@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AI Career Path: {{ target_career }}{% endblock %}
+
+{% block content %}
+<!-- Top Header: Active Target Career Banner (Light Theme) -->
+<div class="page-hero-banner" style="margin-bottom: 28px;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+    <div>
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+        <span class="badge badge-primary">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="12 8 8 12 12 16 12 8"/></svg>
+          Active AI Career Target
+        </span>
+        {% if active_selection.selection_type == 'alternative_selected' %}
+          <span class="badge badge-developing">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Alternative Career Selected
+          </span>
+        {% else %}
+          <span class="badge badge-mastered">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Model Predicted & Confirmed
+          </span>
+        {% endif %}
+      </div>
+      <h1 style="font-size: 2.4rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; margin-bottom: 6px;">
+        {{ target_career }}
+      </h1>
+      <p style="color: var(--text-body); font-size: 1.05rem; max-width: 720px;">
+        Your customized AI Career Path progression architecture. Master prerequisite concepts sequentially and validate knowledge through Bayesian adaptive quizzes.
+      </p>
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <a href="/learning/roadmap" class="btn btn-secondary" id="dash-view-roadmap-btn">
+        View 6-Tier AI Roadmap
+      </a>
+      <a href="/career/assessment" class="btn btn-primary" id="dash-retake-assessment-btn">
+        <span>Retake Career Assessment</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Metrics Grid (Solid Colors, Zero Gradients, Zero Emojis) -->
+<div class="metrics-grid">
+  <!-- Metric 1: Career Readiness -->
+  <div class="metric-card" style="border-left: 5px solid var(--primary);">
+    <div class="metric-label">Overall AI Career Readiness</div>
+    <div class="metric-value" style="color: var(--primary);">
+      {{ readiness.readiness_percentage }}%
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" style="width: {{ readiness.readiness_percentage }}%; background-color: var(--primary);"></div>
+    </div>
+    <small style="color: var(--text-muted); font-size: 0.78rem;">
+      35% Skills + 35% Concepts + 15% Projects + 15% Quizzes
+    </small>
+  </div>
+
+  <!-- Metric 2: Concepts Mastered -->
+  <div class="metric-card" style="border-left: 5px solid var(--success);">
+    <div class="metric-label">Concepts Mastered</div>
+    <div class="metric-value" style="color: var(--success);">
+      {{ skill_gaps.mastered_concepts | length }} <span style="font-size: 1.1rem; color: var(--text-muted); font-weight: 500;">/ {{ skill_gaps.total_required_concepts }}</span>
+    </div>
+    <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+      <span class="badge badge-mastered">{{ skill_gaps.mastered_concepts | length }} Mastered</span>
+      <span class="badge badge-developing">{{ skill_gaps.developing_concepts | length }} Dev</span>
+      <span class="badge badge-weak">{{ skill_gaps.weak_concepts | length }} Weak</span>
+    </div>
+  </div>
+
+  <!-- Metric 3: Projects Completed -->
+  <div class="metric-card" style="border-left: 5px solid var(--secondary);">
+    <div class="metric-label">Capstone Projects Completed</div>
+    <div class="metric-value" style="color: var(--secondary);">
+      {{ readiness.completed_projects_count }} <span style="font-size: 1.1rem; color: var(--text-muted); font-weight: 500;">/ 2</span>
+    </div>
+    <div style="margin-top: 10px;">
+      <a href="/learning/projects" style="color: var(--secondary); font-size: 0.88rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+        <span>Manage Capstones</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Metric 4: Quiz Track Record -->
+  <div class="metric-card" style="border-left: 5px solid var(--accent);">
+    <div class="metric-label">Quizzes Completed</div>
+    <div class="metric-value" style="color: var(--accent);">
+      {{ readiness.total_assessments_count }}
+    </div>
+    <div style="margin-top: 10px;">
+      <a href="/assessment/history" style="color: var(--accent); font-size: 0.88rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+        <span>View Assessment Audit Log</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Recommended Next Learning Activity Banner -->
+{% if next_activity %}
+  <div class="glass-card" style="margin-bottom: 32px; border-left: 6px solid var(--primary); background-color: #ffffff;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <span class="badge badge-primary" style="margin-bottom: 8px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Next Recommended AI Concept
+        </span>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+          {{ next_activity.title }}
+        </h2>
+        <p style="color: var(--text-body); font-size: 0.98rem; max-width: 700px; margin-bottom: 8px;">
+          {{ next_activity.reason }}
+        </p>
+        <div style="display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--text-muted);">
+          <span>Current State: <strong style="color: var(--text-main);">{{ next_activity.current_status | upper }}</strong></span>
+          <span>&bull;</span>
+          <span>BKT Latent Knowledge P(L): <strong style="color: var(--primary);">{{ next_activity.p_knowledge }}</strong></span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="/learning/concept/{{ next_activity.concept_id }}" class="btn btn-secondary" id="next-study-btn">
+          Study Concept & Resources
+        </a>
+        <a href="/assessment/quiz/{{ next_activity.concept_id }}" class="btn btn-primary" id="next-quiz-btn">
+          <span>Take Adaptive Quiz</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<!-- Split Columns: Skill Gap Analysis & Recent Assessments -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 24px; margin-bottom: 32px;">
+  <!-- Column 1: Skill Gaps Breakdown with Search Filter -->
+  <div class="glass-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">
+          Skill Domain Coverage
+        </h3>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+          {{ skill_gaps.missing_concepts_count }} pending concepts to master
+        </span>
+      </div>
+      
+      <!-- Interactive Quick Filter Input -->
+      <div class="search-input-wrapper" style="width: 200px;">
+        <input 
+          type="text" 
+          placeholder="Filter skills..." 
+          class="form-control" 
+          style="padding: 6px 10px; font-size: 0.85rem;" 
+          data-search-target=".skill-domain-card"
+        >
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      {% for s in skill_gaps.skills_breakdown %}
+        <div class="skill-domain-card" style="background-color: var(--bg-page); padding: 14px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); transition: border-color 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">{{ s.skill_name }}</span>
+            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+              {{ s.mastered_concepts }} / {{ s.total_concepts }} Mastered
+            </span>
+          </div>
+          <div class="progress-bar-container" style="height: 7px; margin: 0;">
+            <div class="progress-bar-fill" style="width: {{ (s.mastered_concepts / s.total_concepts * 100) if s.total_concepts > 0 else 0 }}%; background-color: var(--primary);"></div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Column 2: Recent Quizzes & BKT State Shifts -->
+  <div class="glass-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main);">
+          Recent BKT Evaluations
+        </h3>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+          Posterior updates calculated after each attempt
+        </span>
+      </div>
+      <a href="/assessment/history" style="color: var(--primary); font-size: 0.88rem; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+        <span>Full Audit Log</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+
+    {% if recent_quizzes %}
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        {% for q in recent_quizzes %}
+          <div style="display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-page); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+            <div>
+              <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);">
+                {{ q.concept_name or q.concept_id }}
+              </div>
+              <small style="color: var(--text-muted);">
+                {{ q.attempted_at.strftime('%b %d, %H:%M') }} &bull; BKT: {{ q.bkt_prior }} &rarr; <strong style="color: var(--text-main);">{{ q.bkt_posterior }}</strong>
+              </small>
+            </div>
+            <div>
+              {% if q.is_correct %}
+                <span class="badge badge-mastered">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                  Correct
+                </span>
+              {% else %}
+                <span class="badge badge-weak">
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  Incorrect
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div style="text-align: center; padding: 40px 20px; color: var(--text-muted); background-color: var(--bg-page); border-radius: var(--radius-sm); border: 1px dashed var(--border-color);">
+        <p style="font-size: 0.95rem;">No quiz attempts recorded yet.</p>
+        {% if next_activity %}
+          <a href="/assessment/quiz/{{ next_activity.concept_id }}" class="btn btn-primary" style="margin-top: 12px; font-size: 0.88rem;">
+            <span>Take First Concept Quiz</span>
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Gemma 3:1B AI Guidance Engine Status -->
+<div class="glass-card" style="padding: 18px 24px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 12px; height: 12px; border-radius: 50%; background-color: {% if gemma_health.available %}var(--success){% else %}var(--warning){% endif %};"></div>
+      <div>
+        <strong style="font-size: 0.95rem; color: var(--text-main);">Gemma 3:1B AI Copilot:</strong>
+        <span style="font-size: 0.9rem; color: var(--text-muted); margin-left: 6px;">{{ gemma_health.message }}</span>
+      </div>
+    </div>
+    {% if not gemma_health.available %}
+      <div style="font-size: 0.85rem; color: var(--warning); background-color: var(--warning-light); padding: 4px 12px; border-radius: var(--radius-sm); border: 1px solid var(--warning-border);">
+        Local setup: <code>ollama run {{ gemma_health.model_id }}</code>
+      </div>
+    {% else %}
+      <span class="badge badge-mastered">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        AI Service Operational
+      </span>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

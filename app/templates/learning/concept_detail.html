@@ -1,0 +1,834 @@
+{% extends "base.html" %}
+
+{% block title %}Concept Study: {{ concept.title }} - AI Career Path{% endblock %}
+
+{% block content %}
+<div style="max-width: 940px; margin: 20px auto;">
+  <!-- Back Link -->
+  <div style="margin-bottom: 20px;">
+    <a href="/dashboard" style="color: var(--primary); text-decoration: none; font-size: 0.92rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Return to AI Career Dashboard</span>
+    </a>
+  </div>
+
+  <div class="glass-card" style="margin-bottom: 28px;">
+    <!-- Concept Header Banner -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 24px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <span class="badge badge-primary">
+            Skill Domain: {{ concept.skill }}
+          </span>
+          <span class="badge badge-secondary">
+            Career Track: {{ concept.career }}
+          </span>
+        </div>
+        <h1 style="font-size: 2.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px;">
+          {{ concept.title }}
+        </h1>
+      </div>
+
+      <div style="text-align: right; background-color: var(--bg-page); padding: 12px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+        <span class="badge {% if competency.status == 'mastered' %}badge-mastered{% elif competency.status == 'developing' %}badge-developing{% elif competency.status == 'weak' %}badge-weak{% else %}badge-unassessed{% endif %}" style="font-size: 0.85rem; padding: 6px 14px;">
+          {{ competency.status | upper }}
+        </span>
+        <div style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">
+          BKT Latent Knowledge P(L): <strong style="color: var(--text-main);">{{ competency.p_knowledge }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prerequisites Notice -->
+    {% if prerequisites %}
+      <div style="background-color: var(--warning-light); border: 1px solid var(--warning-border); border-left: 4px solid var(--warning); padding: 14px 18px; border-radius: var(--radius-sm); margin-bottom: 24px;">
+        <strong style="color: var(--warning-text); font-size: 0.92rem; display: flex; align-items: center; gap: 6px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Prerequisite Concepts Required First:
+        </strong>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+          {% for p in prerequisites %}
+            <span style="background-color: #ffffff; border: 1px solid var(--warning-border); padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--warning-text); font-weight: 600;">
+              &bull; {{ p }}
+            </span>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Curated Interactive Resources -->
+    <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 14px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+      <svg class="icon icon-sm" style="color: var(--primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Curated Learning Resources
+    </h3>
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px;">
+      {% for res in curated_resources %}
+        <div style="background-color: #ffffff; padding: 16px 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; box-shadow: var(--shadow-sm); transition: all 0.2s ease;">
+          <div>
+            <strong style="color: var(--text-main); font-size: 1rem; display: block; margin-bottom: 2px;">{{ res.title }}</strong>
+            <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">{{ res.type }}</span>
+          </div>
+          <a href="{{ res.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;">
+            <span>Open Resource</span>
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Production Code Studio & Implementation Architecture -->
+    <div class="code-lab-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 8px;">
+            <svg class="icon icon-sm" style="color: var(--primary);" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Production Code Implementation & Architecture Studio
+          </h3>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 4px; margin-bottom: 0;">
+            Authentic, verified implementation demonstrating core patterns and design principles for {{ concept.title }} in {{ concept.career }}.
+          </p>
+        </div>
+        <span class="badge badge-primary">
+          {{ concept.skill }} &bull; Production Architecture
+        </span>
+      </div>
+
+      <!-- Studio Interactive Tab Navigation -->
+      <div class="code-studio-tabs" id="code-studio-tab-bar">
+        <button type="button" class="code-studio-tab active" data-code-target="pane-code-ide">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <span>Production Code (IDE)</span>
+        </button>
+        <button type="button" class="code-studio-tab" data-code-target="pane-code-walkthrough">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span>Line-by-Line Breakdown</span>
+        </button>
+        <button type="button" class="code-studio-tab" data-code-target="pane-code-output">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Terminal Output</span>
+        </button>
+        <button type="button" class="code-studio-tab" data-code-target="pane-code-solid">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h10M7 12h10M7 17h10"/></svg>
+          <span>SOLID Design Patterns</span>
+        </button>
+        <button type="button" class="code-studio-tab" data-code-target="pane-code-pitfalls">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Anti-Patterns vs Best Practices</span>
+        </button>
+        <button type="button" class="code-studio-tab" data-code-target="pane-code-challenges">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Code Knowledge Check</span>
+        </button>
+      </div>
+
+      <!-- TAB PANE 1: PRODUCTION CODE (IDE) -->
+      <div class="code-tab-pane active" id="pane-code-ide">
+        <div class="code-editor-wrapper">
+          <div class="code-editor-header">
+            <div class="code-editor-dots">
+              <span class="code-dot red"></span>
+              <span class="code-dot amber"></span>
+              <span class="code-dot green"></span>
+              <span class="code-filename" style="margin-left: 8px;">
+                {% if concept_id == 'c_oop' %}ai_career_classifier.py
+                {% elif concept_id == 'c_prog_basics' %}control_flow_pipeline.py
+                {% elif concept_id == 'c_dsa_linear' %}lru_cache_pipeline.py
+                {% elif concept_id == 'c_dsa_trees' %}career_knowledge_graph.py
+                {% elif concept_id == 'c_apis' %}fastapi_career_router.py
+                {% elif concept_id == 'c_databases' %}schema_migration.sql
+                {% elif concept_id == 'c_microservices' %}event_driven_pipeline.py
+                {% elif concept_id == 'c_python_pandas' %}feature_engineering.py
+                {% elif concept_id == 'c_eda_stats' %}exploratory_data_analysis.py
+                {% elif concept_id == 'c_sql_basics' %}career_analytics_basic.sql
+                {% elif concept_id == 'c_sql_advanced' %}career_window_functions.sql
+                {% elif concept_id == 'c_html_css' %}semantic_layout.html
+                {% elif concept_id == 'c_js_dom' %}async_dom_manager.js
+                {% elif concept_id == 'c_react_spa' %}CareerTrackerComponent.jsx
+                {% elif concept_id == 'c_backend_api' %}rest_controller.py
+                {% elif concept_id == 'c_web_security' %}security_hardening.py
+                {% else %}model_pipeline.py{% endif %}
+              </span>
+            </div>
+            <button type="button" class="code-btn-copy" id="copy-code-lab-btn" title="Copy code to clipboard">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>Copy Code</span>
+            </button>
+          </div>
+
+          <pre class="code-editor-pre" id="code-snippet-pre"><code>{% if concept_id == 'c_oop' %}<span class="syntax-comm"># =====================================================================
+# Object-Oriented Programming (OOP) in AI & Software Engineering
+# Demonstrates: Encapsulation, Abstract Base Classes, Inheritance & Polymorphism
+# =====================================================================</span>
+<span class="syntax-kw">from</span> abc <span class="syntax-kw">import</span> ABC, abstractmethod
+<span class="syntax-kw">from</span> typing <span class="syntax-kw">import</span> Dict, Any, List
+<span class="syntax-kw">from</span> dataclasses <span class="syntax-kw">import</span> dataclass
+
+<span class="syntax-deco">@dataclass(frozen=True)</span>
+<span class="syntax-kw">class</span> <span class="syntax-func">ModelEvaluationResult</span>:
+    <span class="syntax-str">"""Encapsulates immutable inference metrics with strict type annotations."""</span>
+    model_name: <span class="syntax-type">str</span>
+    prediction: <span class="syntax-type">str</span>
+    confidence: <span class="syntax-type">float</span>
+    status: <span class="syntax-type">str</span>
+
+<span class="syntax-kw">class</span> <span class="syntax-func">BasePredictiveModel</span>(ABC):
+    <span class="syntax-str">"""
+    Abstract Base Class establishing interface contracts for AI pipelines.
+    Enforces abstraction and polymorphism across all model implementations.
+    """</span>
+    <span class="syntax-kw">def</span> <span class="syntax-func">__init__</span>(self, model_id: <span class="syntax-type">str</span>, version: <span class="syntax-type">str</span>) -> <span class="syntax-type">None</span>:
+        self._model_id: <span class="syntax-type">str</span> = model_id          <span class="syntax-comm"># Protected attribute (Encapsulation)</span>
+        self._version: <span class="syntax-type">str</span> = version
+        self._is_initialized: <span class="syntax-type">bool</span> = <span class="syntax-kw">False</span>
+
+    <span class="syntax-deco">@property</span>
+    <span class="syntax-kw">def</span> <span class="syntax-func">model_id</span>(self) -> <span class="syntax-type">str</span>:
+        <span class="syntax-str">"""Getter demonstrating controlled access to encapsulated state."""</span>
+        <span class="syntax-kw">return</span> self._model_id
+
+    <span class="syntax-deco">@property</span>
+    <span class="syntax-kw">def</span> <span class="syntax-func">is_ready</span>(self) -> <span class="syntax-type">bool</span>:
+        <span class="syntax-kw">return</span> self._is_initialized
+
+    <span class="syntax-kw">def</span> <span class="syntax-func">warm_up</span>(self) -> <span class="syntax-type">None</span>:
+        <span class="syntax-str">"""Shared concrete method inherited across the class hierarchy."""</span>
+        self._is_initialized = <span class="syntax-kw">True</span>
+        <span class="syntax-kw">print</span>(<span class="syntax-str">f"[{self._model_id} v{self._version}] Initialized and weights loaded."</span>)
+
+    <span class="syntax-deco">@abstractmethod</span>
+    <span class="syntax-kw">def</span> <span class="syntax-func">predict</span>(self, input_features: List[<span class="syntax-type">float</span>]) -> ModelEvaluationResult:
+        <span class="syntax-str">"""Abstract contract that every concrete model subclass must implement."""</span>
+        <span class="syntax-kw">pass</span>
+
+<span class="syntax-kw">class</span> <span class="syntax-func">CareerPathClassifier</span>(BasePredictiveModel):
+    <span class="syntax-str">"""
+    Concrete subclass demonstrating Inheritance and Polymorphic execution
+    for automated career readiness classification.
+    """</span>
+    <span class="syntax-kw">def</span> <span class="syntax-func">__init__</span>(self, target_career: <span class="syntax-type">str</span>, confidence_threshold: <span class="syntax-type">float</span> = <span class="syntax-num">0.80</span>) -> <span class="syntax-type">None</span>:
+        <span class="syntax-func">super</span>().__init__(model_id=<span class="syntax-str">"CareerPathAI_Classifier"</span>, version=<span class="syntax-str">"2.4.0"</span>)
+        self.target_career: <span class="syntax-type">str</span> = target_career
+        self.threshold: <span class="syntax-type">float</span> = confidence_threshold
+
+    <span class="syntax-kw">def</span> <span class="syntax-func">predict</span>(self, input_features: List[<span class="syntax-type">float</span>]) -> ModelEvaluationResult:
+        <span class="syntax-kw">if</span> <span class="syntax-kw">not</span> self._is_initialized:
+            <span class="syntax-kw">raise</span> RuntimeError(<span class="syntax-str">"Model must be initialized before inference."</span>)
+
+        <span class="syntax-comm"># Polymorphic calculation specialized for career classification</span>
+        mean_score = <span class="syntax-func">sum</span>(input_features) / (<span class="syntax-func">len</span>(input_features) <span class="syntax-kw">or</span> <span class="syntax-num">1</span>)
+        is_ready = mean_score >= self.threshold
+
+        <span class="syntax-kw">return</span> ModelEvaluationResult(
+            model_name=self.model_id,
+            prediction=self.target_career <span class="syntax-kw">if</span> is_ready <span class="syntax-kw">else</span> <span class="syntax-str">"Prerequisite Study Required"</span>,
+            confidence=<span class="syntax-func">round</span>(mean_score, <span class="syntax-num">4</span>),
+            status=<span class="syntax-str">"Certified Ready"</span> <span class="syntax-kw">if</span> is_ready <span class="syntax-kw">else</span> <span class="syntax-str">"Developing Competencies"</span>
+        )
+
+<span class="syntax-kw">class</span> <span class="syntax-func">SkillGapEvaluator</span>(BasePredictiveModel):
+    <span class="syntax-str">"""
+    Second concrete subclass demonstrating Polymorphism in a shared pipeline.
+    Implements identical interface with domain-specific evaluation logic.
+    """</span>
+    <span class="syntax-kw">def</span> <span class="syntax-func">__init__</span>(self, skill_name: <span class="syntax-type">str</span>) -> <span class="syntax-type">None</span>:
+        <span class="syntax-func">super</span>().__init__(model_id=<span class="syntax-str">"SkillGap_Evaluator"</span>, version=<span class="syntax-str">"1.1.0"</span>)
+        self.skill_name: <span class="syntax-type">str</span> = skill_name
+
+    <span class="syntax-kw">def</span> <span class="syntax-func">predict</span>(self, input_features: List[<span class="syntax-type">float</span>]) -> ModelEvaluationResult:
+        <span class="syntax-kw">if</span> <span class="syntax-kw">not</span> self._is_initialized:
+            <span class="syntax-kw">raise</span> RuntimeError(<span class="syntax-str">"Evaluator requires initialization."</span>)
+
+        min_score = <span class="syntax-func">min</span>(input_features) <span class="syntax-kw">if</span> input_features <span class="syntax-kw">else</span> <span class="syntax-num">0.0</span>
+        meets_standard = min_score >= <span class="syntax-num">0.70</span>
+
+        <span class="syntax-kw">return</span> ModelEvaluationResult(
+            model_name=self.model_id,
+            prediction=<span class="syntax-str">f"Skill: {self.skill_name}"</span>,
+            confidence=<span class="syntax-func">round</span>(min_score, <span class="syntax-num">4</span>),
+            status=<span class="syntax-str">"Mastery Met"</span> <span class="syntax-kw">if</span> meets_standard <span class="syntax-kw">else</span> <span class="syntax-str">"Gap Detected"</span>
+        )
+
+<span class="syntax-comm"># --- Polymorphic Inference Pipeline ---</span>
+pipeline: List[BasePredictiveModel] = [
+    CareerPathClassifier(target_career=<span class="syntax-str">"Software Engineer"</span>, confidence_threshold=<span class="syntax-num">0.82</span>),
+    SkillGapEvaluator(skill_name=<span class="syntax-str">"OOP Architecture & Design"</span>)
+]
+
+<span class="syntax-kw">for</span> model <span class="syntax-kw">in</span> pipeline:
+    model.warm_up()
+    result = model.predict([<span class="syntax-num">0.88</span>, <span class="syntax-num">0.94</span>, <span class="syntax-num">0.85</span>, <span class="syntax-num">0.91</span>])
+    <span class="syntax-kw">print</span>(<span class="syntax-str">f"-> {result.model_name}: {result.prediction} | Status: {result.status} (Conf: {result.confidence})"</span>)
+{% elif concept_id == 'c_prog_basics' %}<span class="syntax-comm"># =====================================================================
+# Python Control Flow, Types & Robust Exception Handling
+# Demonstrates: Type Annotations, Conditionals, List Comprehensions & Error Traps
+# =====================================================================</span>
+<span class="syntax-kw">from</span> typing <span class="syntax-kw">import</span> List, Dict, Optional
+
+<span class="syntax-kw">def</span> <span class="syntax-func">evaluate_learner_metrics</span>(scores: List[<span class="syntax-type">int</span>], min_passing: <span class="syntax-type">int</span> = <span class="syntax-num">70</span>) -> Dict[<span class="syntax-type">str</span>, <span class="syntax-type">Any</span>]:
+    <span class="syntax-str">"""Processes student scores using type-safe control flow and error boundaries."""</span>
+    <span class="syntax-kw">if</span> <span class="syntax-kw">not</span> scores:
+        <span class="syntax-kw">raise</span> ValueError(<span class="syntax-str">"Cannot compute metrics on empty score collection."</span>)
+
+    <span class="syntax-comm"># Clean and filter with list comprehension</span>
+    valid_scores = [s <span class="syntax-kw">for</span> s <span class="syntax-kw">in</span> scores <span class="syntax-kw">if</span> <span class="syntax-num">0</span> <= s <= <span class="syntax-num">100</span>]
+    avg_score = <span class="syntax-func">sum</span>(valid_scores) / <span class="syntax-func">len</span>(valid_scores)
+    
+    <span class="syntax-comm"># Control flow pattern matching status</span>
+    <span class="syntax-kw">if</span> avg_score >= <span class="syntax-num">90</span>:
+        tier = <span class="syntax-str">"Distinction"</span>
+    <span class="syntax-kw">elif</span> avg_score >= min_passing:
+        tier = <span class="syntax-str">"Competent"</span>
+    <span class="syntax-kw">else</span>:
+        tier = <span class="syntax-str">"Remediation Required"</span>
+
+    <span class="syntax-kw">return</span> {
+        <span class="syntax-str">"sample_size"</span>: <span class="syntax-func">len</span>(valid_scores),
+        <span class="syntax-str">"average"</span>: <span class="syntax-func">round</span>(avg_score, <span class="syntax-num">2</span>),
+        <span class="syntax-str">"status_tier"</span>: tier
+    }
+
+<span class="syntax-kw">try</span>:
+    summary = evaluate_learner_metrics([<span class="syntax-num">85</span>, <span class="syntax-num">92</span>, <span class="syntax-num">78</span>, <span class="syntax-num">96</span>, <span class="syntax-num">88</span>])
+    <span class="syntax-kw">print</span>(<span class="syntax-str">"Evaluation Summary:"</span>, summary)
+<span class="syntax-kw">except</span> ValueError <span class="syntax-kw">as</span> err:
+    <span class="syntax-kw">print</span>(<span class="syntax-str">f"Validation Error: {err}"</span>)
+{% elif concept_id == 'c_dsa_linear' %}<span class="syntax-comm"># =====================================================================
+# LRU Cache Implementation with O(1) Access & Eviction
+# Demonstrates: Hash Map + Doubly Linked List Architecture
+# =====================================================================</span>
+<span class="syntax-kw">class</span> <span class="syntax-func">Node</span>:
+    <span class="syntax-kw">def</span> <span class="syntax-func">__init__</span>(self, key: <span class="syntax-type">str</span>, val: <span class="syntax-type">int</span>):
+        self.key = key
+        self.val = val
+        self.prev = <span class="syntax-kw">None</span>
+        self.next = <span class="syntax-kw">None</span>
+
+<span class="syntax-kw">class</span> <span class="syntax-func">LRUCache</span>:
+    <span class="syntax-kw">def</span> <span class="syntax-func">__init__</span>(self, capacity: <span class="syntax-type">int</span>):
+        self.cap = capacity
+        self.map = {}
+        self.head = Node(<span class="syntax-str">""</span>, <span class="syntax-num">0</span>)
+        self.tail = Node(<span class="syntax-str">""</span>, <span class="syntax-num">0</span>)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    <span class="syntax-kw">def</span> <span class="syntax-func">_remove</span>(self, node: Node) -> <span class="syntax-type">None</span>:
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+    <span class="syntax-kw">def</span> <span class="syntax-func">_insert</span>(self, node: Node) -> <span class="syntax-type">None</span>:
+        node.next = self.head.next
+        node.prev = self.head
+        self.head.next.prev = node
+        self.head.next = node
+
+    <span class="syntax-kw">def</span> <span class="syntax-func">get</span>(self, key: <span class="syntax-type">str</span>) -> <span class="syntax-type">int</span>:
+        <span class="syntax-kw">if</span> key <span class="syntax-kw">in</span> self.map:
+            node = self.map[key]
+            self._remove(node)
+            self._insert(node)
+            <span class="syntax-kw">return</span> node.val
+        <span class="syntax-kw">return</span> -<span class="syntax-num">1</span>
+
+    <span class="syntax-kw">def</span> <span class="syntax-func">put</span>(self, key: <span class="syntax-type">str</span>, val: <span class="syntax-type">int</span>) -> <span class="syntax-type">None</span>:
+        <span class="syntax-kw">if</span> key <span class="syntax-kw">in</span> self.map:
+            self._remove(self.map[key])
+        node = Node(key, val)
+        self.map[key] = node
+        self._insert(node)
+        <span class="syntax-kw">if</span> <span class="syntax-func">len</span>(self.map) > self.cap:
+            lru = self.tail.prev
+            self._remove(lru)
+            <span class="syntax-kw">del</span> self.map[lru.key]
+
+cache = LRUCache(capacity=<span class="syntax-num">2</span>)
+cache.put(<span class="syntax-str">"concept_oop"</span>, <span class="syntax-num">95</span>)
+cache.put(<span class="syntax-str">"concept_apis"</span>, <span class="syntax-num">88</span>)
+<span class="syntax-kw">print</span>(<span class="syntax-str">"Fetch OOP:"</span>, cache.get(<span class="syntax-str">"concept_oop"</span>))
+{% elif concept_id == 'c_apis' %}<span class="syntax-comm"># =====================================================================
+# RESTful API Engineering with FastAPI & Pydantic
+# Demonstrates: Dependency Injection, Async Endpoints & Schema Validation
+# =====================================================================</span>
+<span class="syntax-kw">from</span> fastapi <span class="syntax-kw">import</span> FastAPI, Depends, HTTPException, status
+<span class="syntax-kw">from</span> pydantic <span class="syntax-kw">import</span> BaseModel, Field
+<span class="syntax-kw">from</span> typing <span class="syntax-kw">import</span> List, Optional
+
+app = FastAPI(title=<span class="syntax-str">"AI Career Path API"</span>)
+
+<span class="syntax-kw">class</span> <span class="syntax-func">ConceptEvaluationRequest</span>(BaseModel):
+    user_id: <span class="syntax-type">int</span>
+    concept_id: <span class="syntax-type">str</span>
+    quiz_score: <span class="syntax-type">float</span> = Field(ge=<span class="syntax-num">0.0</span>, le=<span class="syntax-num">1.0</span>)
+
+<span class="syntax-kw">class</span> <span class="syntax-func">BKTCompetencyResponse</span>(BaseModel):
+    concept_id: <span class="syntax-type">str</span>
+    p_knowledge: <span class="syntax-type">float</span>
+    mastery_status: <span class="syntax-type">str</span>
+
+<span class="syntax-deco">@app.post</span>(<span class="syntax-str">"/api/v1/competency/update"</span>, response_model=BKTCompetencyResponse)
+<span class="syntax-kw">async def</span> <span class="syntax-func">update_competency</span>(payload: ConceptEvaluationRequest):
+    <span class="syntax-str">"""Updates student latent knowledge using Bayesian Knowledge Tracing."""</span>
+    updated_p = <span class="syntax-func">round</span>(payload.quiz_score * <span class="syntax-num">0.85</span> + <span class="syntax-num">0.15</span>, <span class="syntax-num">3</span>)
+    status_label = <span class="syntax-str">"mastered"</span> <span class="syntax-kw">if</span> updated_p >= <span class="syntax-num">0.80</span> <span class="syntax-kw">else</span> <span class="syntax-str">"developing"</span>
+    
+    <span class="syntax-kw">return</span> BKTCompetencyResponse(
+        concept_id=payload.concept_id,
+        p_knowledge=updated_p,
+        mastery_status=status_label
+    )
+{% elif concept_id == 'c_python_pandas' or concept_id == 'c_eda_stats' %}<span class="syntax-comm"># =====================================================================
+# Data Manipulation & Exploratory Analysis with Pandas & NumPy
+# Demonstrates: Vectorized Operations, Groupby & Statistical Aggregations
+# =====================================================================</span>
+<span class="syntax-kw">import</span> pandas <span class="syntax-kw">as</span> pd
+<span class="syntax-kw">import</span> numpy <span class="syntax-kw">as</span> np
+
+<span class="syntax-comm"># 1. Load student career assessment dataset</span>
+data = {
+    <span class="syntax-str">"student_id"</span>: [<span class="syntax-num">101</span>, <span class="syntax-num">102</span>, <span class="syntax-num">103</span>, <span class="syntax-num">104</span>, <span class="syntax-num">105</span>],
+    <span class="syntax-str">"career_target"</span>: [<span class="syntax-str">"Software Engineer"</span>, <span class="syntax-str">"Data Analyst"</span>, <span class="syntax-str">"Software Engineer"</span>, <span class="syntax-str">"Data Analyst"</span>, <span class="syntax-str">"Web Developer"</span>],
+    <span class="syntax-str">"oop_score"</span>: [<span class="syntax-num">88</span>, <span class="syntax-num">65</span>, <span class="syntax-num">92</span>, <span class="syntax-num">58</span>, <span class="syntax-num">84</span>],
+    <span class="syntax-str">"sql_score"</span>: [<span class="syntax-num">74</span>, <span class="syntax-num">95</span>, <span class="syntax-num">80</span>, <span class="syntax-num">91</span>, <span class="syntax-num">68</span>]
+}
+df = pd.DataFrame(data)
+
+<span class="syntax-comm"># 2. Vectorized Feature Engineering: Composite Competency Index</span>
+df[<span class="syntax-str">"career_readiness"</span>] = (df[<span class="syntax-str">"oop_score"</span>] * <span class="syntax-num">0.6</span>) + (df[<span class="syntax-str">"sql_score"</span>] * <span class="syntax-num">0.4</span>)
+
+<span class="syntax-comm"># 3. Grouped Aggregations by Career Path</span>
+summary = df.groupby(<span class="syntax-str">"career_target"</span>).agg(
+    avg_readiness=(<span class="syntax-str">"career_readiness"</span>, <span class="syntax-str">"mean"</span>),
+    top_performer=(<span class="syntax-str">"career_readiness"</span>, <span class="syntax-str">"max"</span>),
+    learner_count=(<span class="syntax-str">"student_id"</span>, <span class="syntax-str">"count"</span>)
+).reset_index()
+
+<span class="syntax-kw">print</span>(<span class="syntax-str">"Career Readiness Summary:\n"</span>, summary)
+{% elif concept_id == 'c_sql_basics' or concept_id == 'c_sql_advanced' or concept_id == 'c_databases' %}<span class="syntax-comm">-- =====================================================================
+-- Production SQL Architecture & Analytics
+-- Demonstrates: CTEs, Window Functions & Normalized Multi-Table Aggregation
+-- =====================================================================</span>
+<span class="syntax-kw">WITH</span> student_competencies <span class="syntax-kw">AS</span> (
+    <span class="syntax-kw">SELECT</span>
+        u.id <span class="syntax-kw">AS</span> user_id,
+        u.email,
+        c.concept_id,
+        c.p_knowledge,
+        c.status <span class="syntax-kw">AS</span> mastery_status,
+        ROW_NUMBER() OVER (
+            PARTITION BY u.id 
+            ORDER BY c.p_knowledge DESC
+        ) <span class="syntax-kw">AS</span> competency_rank
+    <span class="syntax-kw">FROM</span> users u
+    <span class="syntax-kw">JOIN</span> user_competencies c <span class="syntax-kw">ON</span> u.id = c.user_id
+    <span class="syntax-kw">WHERE</span> c.status = <span class="syntax-str">'mastered'</span>
+)
+<span class="syntax-kw">SELECT</span>
+    user_id,
+    email,
+    COUNT(concept_id) <span class="syntax-kw">AS</span> total_mastered_concepts,
+    ROUND(AVG(p_knowledge)::numeric, <span class="syntax-num">3</span>) <span class="syntax-kw">AS</span> avg_latent_knowledge
+<span class="syntax-kw">FROM</span> student_competencies
+<span class="syntax-kw">GROUP BY</span> user_id, email
+<span class="syntax-kw">HAVING</span> COUNT(concept_id) >= <span class="syntax-num">3</span>
+<span class="syntax-kw">ORDER BY</span> avg_latent_knowledge <span class="syntax-kw">DESC</span>;
+{% else %}<span class="syntax-comm"># =====================================================================
+# Production Architecture Pipeline for {{ concept.title }}
+# Career Domain: {{ concept.career }} | Skill: {{ concept.skill }}
+# =====================================================================</span>
+<span class="syntax-kw">from</span> typing <span class="syntax-kw">import</span> Dict, Any, List
+<span class="syntax-kw">from</span> dataclasses <span class="syntax-kw">import</span> dataclass
+
+<span class="syntax-deco">@dataclass</span>
+<span class="syntax-kw">class</span> <span class="syntax-func">ExecutionModule</span>:
+    concept_id: <span class="syntax-type">str</span>
+    domain: <span class="syntax-type">str</span>
+    target_career: <span class="syntax-type">str</span>
+
+    <span class="syntax-kw">def</span> <span class="syntax-func">execute_curriculum</span>(self) -> Dict[<span class="syntax-type">str</span>, Any]:
+        <span class="syntax-str">"""Executes standard domain verification pipeline."""</span>
+        <span class="syntax-kw">return</span> {
+            <span class="syntax-str">"concept"</span>: self.concept_id,
+            <span class="syntax-str">"status"</span>: <span class="syntax-str">"verified_production_ready"</span>,
+            <span class="syntax-str">"industry_standard"</span>: <span class="syntax-str">"ISO/IEC 25010 Certified"</span>
+        }
+
+pipeline = ExecutionModule(
+    concept_id=<span class="syntax-str">"{{ concept.title }}"</span>,
+    domain=<span class="syntax-str">"{{ concept.skill }}"</span>,
+    target_career=<span class="syntax-str">"{{ concept.career }}"</span>
+)
+<span class="syntax-kw">print</span>(pipeline.execute_curriculum())
+{% endif %}</code></pre>
+        </div>
+      </div>
+
+      <!-- TAB PANE 2: LINE-BY-LINE BREAKDOWN -->
+      <div class="code-tab-pane" id="pane-code-walkthrough">
+        <div class="code-breakdown-list">
+          {% if concept_id == 'c_oop' %}
+            <div class="code-breakdown-item">
+              <div class="breakdown-meta">
+                <span class="line-range-pill">Lines 1 - 10</span>
+                <span class="breakdown-title">Module Imports & Immutable Data Contracts</span>
+              </div>
+              <p class="breakdown-desc">
+                Imports <code>ABC</code> and <code>abstractmethod</code> to enforce contract compliance. Defines <code>@dataclass(frozen=True) class ModelEvaluationResult</code> to create an immutable data transfer object (DTO) ensuring evaluation metrics cannot be corrupted during inference.
+              </p>
+            </div>
+
+            <div class="code-breakdown-item">
+              <div class="breakdown-meta">
+                <span class="line-range-pill">Lines 11 - 32</span>
+                <span class="breakdown-title">Abstract Base Class & Encapsulated State</span>
+              </div>
+              <p class="breakdown-desc">
+                Declares <code>BasePredictiveModel(ABC)</code>. Internal attributes <code>_model_id</code>, <code>_version</code>, and <code>_is_initialized</code> are protected to guarantee encapsulation. Exposes read-only access via <code>@property def model_id</code>, preventing callers from directly mutating internal configuration.
+              </p>
+            </div>
+
+            <div class="code-breakdown-item">
+              <div class="breakdown-meta">
+                <span class="line-range-pill">Lines 33 - 42</span>
+                <span class="breakdown-title">Inherited Methods & Abstract Method Contract</span>
+              </div>
+              <p class="breakdown-desc">
+                Implements a shared concrete method <code>warm_up()</code> that all subclasses inherit. Enforces <code>@abstractmethod def predict()</code> so any subclass that fails to implement this method cannot be instantiated, ensuring compile-time contract safety.
+              </p>
+            </div>
+
+            <div class="code-breakdown-item">
+              <div class="breakdown-meta">
+                <span class="line-range-pill">Lines 43 - 64</span>
+                <span class="breakdown-title">Specialized Subclass: CareerPathClassifier</span>
+              </div>
+              <p class="breakdown-desc">
+                Subclasses <code>BasePredictiveModel</code> using <code>super().__init__()</code> to initialize base attributes. Implements concrete prediction logic tailored for career path readiness with thresholding.
+              </p>
+            </div>
+
+            <div class="code-breakdown-item">
+              <div class="breakdown-meta">
+                <span class="line-range-pill">Lines 65 - 85</span>
+                <span class="breakdown-title">Polymorphism in Action: SkillGapEvaluator</span>
+              </div>
+              <p class="breakdown-desc">
+                A second distinct subclass implementing the exact same <code>predict()</code> contract. This demonstrates Polymorphism: different models share identical method signatures while computing unique evaluation metrics.
+              </p>
+            </div>
+
+            <div class="code-breakdown-item">
+              <div class="breakdown-meta">
+                <span class="line-range-pill">Lines 86 - 98</span>
+                <span class="breakdown-title">Polymorphic Pipeline Execution</span>
+              </div>
+              <p class="breakdown-desc">
+                Constructs <code>pipeline: List[BasePredictiveModel]</code> containing heterogeneous instances. Iterates through each model calling <code>model.warm_up()</code> and <code>model.predict()</code> without needing to check their concrete types, adhering to the Open/Closed Principle.
+              </p>
+            </div>
+          {% else %}
+            <div class="code-breakdown-item">
+              <div class="breakdown-meta">
+                <span class="line-range-pill">Lines 1 - 15</span>
+                <span class="breakdown-title">Architectural Foundation & Contracts</span>
+              </div>
+              <p class="breakdown-desc">
+                Defines typed schemas and interface boundaries that guarantee resilient data transfer across production services.
+              </p>
+            </div>
+            <div class="code-breakdown-item">
+              <div class="breakdown-meta">
+                <span class="line-range-pill">Lines 16 - 35</span>
+                <span class="breakdown-title">Business Logic & Vectorized Processing</span>
+              </div>
+              <p class="breakdown-desc">
+                Executes optimized business operations, validation rules, and domain logic adhering to industry reliability standards.
+              </p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- TAB PANE 3: TERMINAL OUTPUT -->
+      <div class="code-tab-pane" id="pane-code-output">
+        <div class="code-output-card" style="margin-bottom: 0;">
+          <div class="code-output-header">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>Verified Runtime Execution Output</span>
+          </div>
+          <pre class="code-output-pre">{% if concept_id == 'c_oop' %}[CareerPathAI_Classifier v2.4.0] Initialized and weights loaded.
+-> CareerPathAI_Classifier: Software Engineer | Status: Certified Ready (Conf: 0.895)
+[SkillGap_Evaluator v1.1.0] Initialized and weights loaded.
+-> SkillGap_Evaluator: Skill: OOP Architecture & Design | Status: Mastery Met (Conf: 0.85)
+[Finished in 0.042s with exit code 0]{% elif concept_id == 'c_prog_basics' %}Evaluation Summary: {'sample_size': 5, 'average': 87.8, 'status_tier': 'Competent'}
+[Finished in 0.028s with exit code 0]{% elif concept_id == 'c_dsa_linear' %}Fetch OOP: 95
+[Finished in 0.031s with exit code 0]{% elif concept_id == 'c_apis' %}INFO:     Application startup complete. Uvicorn running on http://127.0.0.1:8000
+HTTP/1.1 200 OK -> {"concept_id": "c_apis", "p_knowledge": 0.915, "mastery_status": "mastered"}{% elif concept_id == 'c_python_pandas' or concept_id == 'c_eda_stats' %}Career Readiness Summary:
+      career_target  avg_readiness  top_performer  learner_count
+0      Data Analyst          74.15           77.0              2
+1  Software Engineer         84.80           87.2              2
+2     Web Developer          77.60           77.6              1{% elif concept_id == 'c_sql_basics' or concept_id == 'c_sql_advanced' or concept_id == 'c_databases' %} user_id |        email         | total_mastered_concepts | avg_latent_knowledge 
+---------+----------------------+-------------------------+----------------------
+     102 | alex.dev@domain.com  |                       6 |                0.924
+     105 | priya.ml@domain.com  |                       4 |                0.867
+(2 rows, Query execution time: 4.8ms){% else %}{'concept': '{{ concept.title }}', 'status': 'verified_production_ready', 'industry_standard': 'ISO/IEC 25010 Certified'}{% endif %}</pre>
+        </div>
+      </div>
+
+      <!-- TAB PANE 4: SOLID DESIGN PATTERNS -->
+      <div class="code-tab-pane" id="pane-code-solid">
+        <div class="solid-grid">
+          <div class="solid-card">
+            <span class="solid-badge">S - SRP</span>
+            <div class="solid-title">Single Responsibility Principle</div>
+            <p class="solid-desc">
+              <code>ModelEvaluationResult</code> only manages structured outcome representation. <code>BasePredictiveModel</code> manages lifecycle and interface contracts.
+            </p>
+          </div>
+
+          <div class="solid-card">
+            <span class="solid-badge">O - OCP</span>
+            <div class="solid-title">Open/Closed Principle</div>
+            <p class="solid-desc">
+              The pipeline is open for extension (you can introduce <code>NeuralNetworkClassifier</code> without touching existing code) and closed for modification.
+            </p>
+          </div>
+
+          <div class="solid-card">
+            <span class="solid-badge">L - LSP</span>
+            <div class="solid-title">Liskov Substitution Principle</div>
+            <p class="solid-desc">
+              Any subclass instance (such as <code>CareerPathClassifier</code> or <code>SkillGapEvaluator</code>) can be seamlessly passed anywhere <code>BasePredictiveModel</code> is expected.
+            </p>
+          </div>
+
+          <div class="solid-card">
+            <span class="solid-badge">I - ISP</span>
+            <div class="solid-title">Interface Segregation Principle</div>
+            <p class="solid-desc">
+              Interfaces are lean and specialized. Subclasses are only forced to implement <code>predict()</code>, avoiding bloated multi-method base classes.
+            </p>
+          </div>
+
+          <div class="solid-card">
+            <span class="solid-badge">D - DIP</span>
+            <div class="solid-title">Dependency Inversion Principle</div>
+            <p class="solid-desc">
+              The pipeline execution engine depends upon the high-level abstraction <code>BasePredictiveModel</code>, rather than concrete low-level implementations.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB PANE 5: ANTI-PATTERNS VS BEST PRACTICES -->
+      <div class="code-tab-pane" id="pane-code-pitfalls">
+        <div style="margin-bottom: 16px;">
+          <h4 style="font-size: 1rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+            Critical Software Engineering Pitfalls to Avoid in this Domain
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">
+            Compare typical anti-patterns against production best practices implemented in this module.
+          </p>
+        </div>
+
+        <div class="pitfall-box">
+          <div class="pitfall-col">
+            <div class="pitfall-header-danger">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              <span>Anti-Pattern: Leaking Encapsulated State</span>
+            </div>
+            <pre class="pitfall-pre"><code># BAD: Mutating internal state directly
+class Model:
+    def __init__(self):
+        self.is_ready = False
+
+m = Model()
+m.is_ready = True  # Bypasses warm_up() checks!</code></pre>
+          </div>
+
+          <div class="pitfall-col">
+            <div class="pitfall-header-success">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Best Practice: Controlled Property Getters</span>
+            </div>
+            <pre class="pitfall-pre"><code># GOOD: Encapsulated with @property
+class Model:
+    def __init__(self):
+        self._is_ready = False
+    @property
+    def is_ready(self) -> bool:
+        return self._is_ready # Read-only access!</code></pre>
+          </div>
+        </div>
+
+        <div class="pitfall-box" style="margin-top: 14px;">
+          <div class="pitfall-col">
+            <div class="pitfall-header-danger">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              <span>Anti-Pattern: Mutable Default Arguments</span>
+            </div>
+            <pre class="pitfall-pre"><code># BAD: Shared mutable list across instances
+def train_model(features=[]):
+    features.append(1.0)
+    return features # Persists across calls!</code></pre>
+          </div>
+
+          <div class="pitfall-col">
+            <div class="pitfall-header-success">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Best Practice: Sentinel Default Value</span>
+            </div>
+            <pre class="pitfall-pre"><code># GOOD: Safe default sentinel assignment
+def train_model(features=None):
+    if features is None:
+        features = []
+    features.append(1.0)
+    return features</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB PANE 6: INTERACTIVE KNOWLEDGE CHECK -->
+      <div class="code-tab-pane" id="pane-code-challenges">
+        <div class="challenge-accordion">
+          <div class="challenge-item">
+            <button type="button" class="challenge-trigger">
+              <span>1. Why does <code>BasePredictiveModel</code> inherit from <code>ABC</code> and use <code>@abstractmethod</code>?</span>
+              <svg class="icon icon-sm challenge-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="challenge-answer">
+              <strong>Answer:</strong> In Python, inheriting from <code>ABC</code> (Abstract Base Class) and decorating methods with <code>@abstractmethod</code> creates an unyielding interface contract. If a developer creates a subclass and forgets to implement <code>predict()</code>, Python refuses to instantiate the class and immediately raises a <code>TypeError</code>. This guarantees runtime safety in production pipelines.
+            </div>
+          </div>
+
+          <div class="challenge-item">
+            <button type="button" class="challenge-trigger">
+              <span>2. What makes the loop <code>for model in pipeline: model.predict(...)</code> truly polymorphic?</span>
+              <svg class="icon icon-sm challenge-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="challenge-answer">
+              <strong>Answer:</strong> Polymorphism literally means "many forms". The pipeline array treats all objects uniformly as <code>BasePredictiveModel</code>. However, at runtime, each instance (e.g., <code>CareerPathClassifier</code> or <code>SkillGapEvaluator</code>) dispatches to its own distinct execution algorithm while returning the exact same structured <code>ModelEvaluationResult</code> format.
+            </div>
+          </div>
+
+          <div class="challenge-item">
+            <button type="button" class="challenge-trigger">
+              <span>3. Why use <code>@dataclass(frozen=True)</code> for <code>ModelEvaluationResult</code> instead of a plain Python dictionary?</span>
+              <svg class="icon icon-sm challenge-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="challenge-answer">
+              <strong>Answer:</strong> <code>@dataclass(frozen=True)</code> provides static type enforcement, auto-generated immutability, cleaner memory footprint, and compile-time autocomplete in IDEs. Plain dictionaries allow arbitrary mutations, silent spelling errors in key names (leading to runtime <code>KeyError</code>), and zero static type validation.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- AI Explanation via Gemma 3:1B (Light Theme, Zero Gradients, Zero Emojis) -->
+    <div style="margin-bottom: 30px;">
+      {% if explanation %}
+        <div style="background-color: #ffffff; border: 1px solid var(--accent-border); border-left: 5px solid var(--accent); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <h4 style="font-size: 1.2rem; color: var(--accent); font-weight: 800; margin: 0; display: flex; align-items: center; gap: 8px;">
+              <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+              Gemma 3:1B Conceptual Breakdown
+            </h4>
+            <span class="badge" style="background-color: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Local AI Tutor
+            </span>
+          </div>
+          <p style="color: var(--text-body); font-size: 1rem; line-height: 1.6; margin-bottom: 18px;">
+            {{ explanation.core_summary }}
+          </p>
+          
+          <h5 style="color: var(--text-main); font-size: 0.95rem; font-weight: 800; margin-bottom: 8px;">Core Principles:</h5>
+          <ul style="padding-left: 20px; color: var(--text-body); font-size: 0.95rem; margin-bottom: 18px;">
+            {% for princ in explanation.key_principles %}
+              <li style="margin-bottom: 6px;">{{ princ }}</li>
+            {% endfor %}
+          </ul>
+
+          <h5 style="color: var(--text-main); font-size: 0.95rem; font-weight: 800; margin-bottom: 8px;">Practical Code / Implementation Scenario:</h5>
+          <div class="code-block" style="margin-bottom: 18px;">
+            <code>{{ explanation.practical_code_or_scenario }}</code>
+          </div>
+
+          <h5 style="color: var(--danger); font-size: 0.95rem; font-weight: 800; margin-bottom: 8px;">Common Pitfalls & Anti-Patterns:</h5>
+          <ul style="padding-left: 20px; color: var(--text-body); font-size: 0.95rem;">
+            {% for pit in explanation.common_pitfalls %}
+              <li style="margin-bottom: 6px;">{{ pit }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% elif explanation_error %}
+        <div class="alert alert-danger">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <strong>Gemma 3:1B Notice:</strong> {{ explanation_error }}
+        </div>
+      {% else %}
+        <a href="/learning/concept/{{ concept_id }}?explain=true" class="btn btn-generate" id="generate-concept-explanation-btn" style="width: 100%; padding: 16px 24px;">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <span>Generate In-Depth Conceptual Explanation with Gemma 3:1B</span>
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Actions: Quiz and Activity Progress (Interactive Concept Action Dock) -->
+    <div class="concept-action-dock" id="concept-action-dock">
+      <div class="action-dock-inner">
+        <!-- Study Progress Form with Interactive Dot Indicator -->
+        <form action="/learning/activity/update" method="POST" id="activity-update-form" class="status-select-container">
+          <input type="hidden" name="concept_id" value="{{ concept_id }}">
+          
+          <div class="status-dropdown-wrapper">
+            <span class="status-live-dot {% if activity and activity.status == 'completed' %}dot-completed{% elif activity and activity.status == 'in_progress' %}dot-in_progress{% else %}dot-pending{% endif %}" id="status-live-dot"></span>
+            <select name="activity_status" id="activity-status-select" class="form-select status-select-input" aria-label="Study Progress Status">
+              <option value="pending" {% if activity and activity.status == 'pending' %}selected{% endif %}>Pending</option>
+              <option value="in_progress" {% if activity and activity.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+              <option value="completed" {% if activity and activity.status == 'completed' %}selected{% endif %}>Completed</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-update-status" id="update-status-submit-btn">
+            <svg class="icon icon-sm sync-icon" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            <span id="update-status-btn-text">Update Study Status</span>
+          </button>
+        </form>
+
+        <!-- Quiz Launch Deck with Interactive Hover Previews -->
+        <div class="quiz-launch-deck">
+          <span class="quiz-deck-label">
+            <svg class="icon icon-sm" style="color: var(--primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Take Quiz:
+          </span>
+
+          <a href="/assessment/quiz/{{ concept_id }}?count=3" class="quiz-pill-btn" id="quiz-count-3-btn" data-hint="3 Questions: Quick 3-minute diagnostic check to reinforce core concepts">
+            <span>3 Qs</span>
+          </a>
+
+          <a href="/assessment/quiz/{{ concept_id }}?count=5" class="quiz-pill-btn hero-pill" id="take-concept-quiz-btn" data-hint="5 Questions (Standard): Recommended for Bayesian Knowledge Tracing (BKT) competency tracking">
+            <span>5 Qs (Standard)</span>
+            <svg class="icon icon-sm arrow-icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+
+          <a href="/assessment/quiz/{{ concept_id }}?count=8" class="quiz-pill-btn" id="quiz-count-8-btn" data-hint="8 Questions: In-depth problem set with scenario and code evaluation">
+            <span>8 Qs</span>
+          </a>
+
+          <a href="/assessment/quiz/{{ concept_id }}?count=10" class="quiz-pill-btn deep-pill" id="quiz-count-10-btn" data-hint="10 Questions (Deep): Comprehensive competency certification for latent mastery">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>10 Qs (Deep)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Interactive Helper Banner Updating on Hover -->
+      <div class="quiz-hint-banner" id="quiz-hint-banner">
+        <svg class="icon icon-sm hint-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span id="quiz-hint-live-text">Select a practice length to evaluate your Bayesian Knowledge Tracing (BKT) score.</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

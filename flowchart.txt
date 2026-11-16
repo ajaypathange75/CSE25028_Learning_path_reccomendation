@@ -1,0 +1,217 @@
+1. Importing the packages
+2. Exploring the dataset 
+	- career synthetic data load
+3. Data processing and cleaning
+	- using Pandas Data frame
+	
+4. Visualization the data using seaborn and matplotlib
+5. label Encoding
+	- Processing the Data str to int
+
+6. Splitting the data to train and test
+7. Building the model 	
+	- Random Forest
+	- SVM
+	- XGBoost
+	- Voting Classifier (combination of XGBoost, Catboost, Lightgbm, Random Forest)
+   
+8. Training the model
+9. Building the model 
+
+
+
+APPLICATION:
+------------------------
+1. User Registration
+   - User creates an account
+
+2. User Login
+   - User logs into the application
+
+3. Initial User Profile like
+   - Academic information
+   - Skills
+   - Interests
+   - Experience
+   - Career preferences
+
+4. Career Assessment
+   - User answers career-related questions
+
+5. Input Preprocessing
+   - Process user responses
+   - Convert responses into model features
+
+6. Career Path Prediction
+   - Load trained ML model
+   - Predict suitable career path
+
+7. Display Predicted Career Path
+   - Predicted career
+   - Career overview
+   - Required skills
+
+8. User Acceptance
+   - Accept predicted career path
+   - Reject predicted career path
+
+9. Alternative Career Recommendation
+   - Generate alternative career paths
+   - User selects preferred career path
+
+10. Selected Career Path
+    - Set selected career as the target career
+
+11. Career Knowledge Graph
+    - Career
+    - Skills
+    - Concepts
+    - Courses
+    - Prerequisites
+    - Learning resources
+
+12. Learner Competency Estimation
+    - Estimate current competency
+    - Identify known concepts
+    - Identify weak concepts
+
+13. Skill Gap Analysis
+    - Compare current competency with required competency
+    - Identify missing skills and concepts
+
+14. Prerequisite Analysis
+    - Identify prerequisite concepts
+    - Analyse concept relationships
+    - Determine learning order
+
+15. Personalized Learning Path Generation
+    - Skill gap
+    - Prerequisite relationships
+    - Semantic relevance
+    - Priority calculation
+
+16. Career Roadmap Generation
+    - Foundation
+    - Intermediate
+    - Advanced
+    - Projects
+    - Practice
+    - Career preparation
+
+17. Gemma 3:1B Integration
+    - Generate personalized roadmap content
+    - Provide learning guidance
+    - Provide course and tutorial recommendations
+    - Provide study suggestions
+
+18. Personalized Learning Dashboard
+    - Display career path
+    - Display learning path
+    - Display roadmap
+    - Display progress
+
+19. Learning and Practice
+    - User studies recommended concepts
+    - User accesses learning resources
+    - User completes practice activities
+
+20. AI-Generated Quiz / MCQ
+    - Generate questions based on learning concepts
+    - User attempts quiz
+    - Evaluate answers
+
+21. Assessment History
+    - Store quiz results
+    - Store assessment history
+    - Store scores
+    - Store attempts
+    - Store concept-wise performance
+
+22. Competency Update
+    - Update learner competency using BKT
+    - Update concept-level knowledge state
+
+23. Knowledge Graph Update
+    - Update learner-concept relationship
+    - Update learned concepts
+    - Update weak concepts
+    - Track learning progress
+
+24. Updated Skill Gap Analysis
+    - Recalculate competency
+    - Identify remaining skill gaps
+    - Identify required concepts
+
+25. Adaptive Learning Path Update
+    - Recalculate priorities
+    - Update learning sequence
+    - Recommend next learning activity
+
+26. Continuous Learning Loop
+    - Learning
+    - Quiz
+    - Assessment
+    - Competency update
+    - Knowledge Graph update
+    - Skill gap analysis
+    - Updated learning path
+
+27. Career Readiness Tracking
+    - Track completed skills
+    - Track completed concepts
+    - Track projects
+    - Track assessments
+    - Track overall progress
+
+
+EXTENSION / PROPOSED WORK:
+----------------------------------------------
+
+1. Knowledge Graph-Based Extension
+   - The proposed system extends the existing career prediction approach with a Knowledge Graph.
+   - Represent careers, skills, concepts, courses and prerequisites.
+   - Establish relationships between career requirements and learning concepts.
+   - Use prerequisite relationships to determine the correct learning sequence.
+
+2. ML-Integrated Career Prediction
+   - Integrate the trained ML career prediction model into the application.
+   - Use user assessment responses as input features.
+   - Predict the initial career path.
+   - Provide alternative career paths when the predicted path is not accepted.
+
+3. Competency-Aware Graph Extension
+   - Integrate learner competency with the Knowledge Graph.
+   - Identify the learner's current knowledge and skill gaps.
+   - Use prerequisite relationships to prioritize missing concepts.
+   - Generate a personalized learning path based on the learner's current competency.
+
+4. LLM-Based Roadmap Extension
+   - Integrate Gemma 3:1B as the LLM layer.
+   - Use the generated learning path and Knowledge Graph information as context.
+   - Generate a complete career roadmap.
+   - Provide tutorials, courses, learning materials, projects and study guidance.
+   - Personalize roadmap content according to the learner's progress.
+
+5. AI Assessment Extension
+   - Generate AI-based MCQs and quizzes.
+   - Generate questions based on the learner's current concepts.
+   - Store assessment and performance history.
+   - Use assessment results for competency updates.
+
+6. Adaptive Learning Extension
+   - Update learner competency after assessments.
+   - Update the Knowledge Graph with learner progress.
+   - Recalculate skill gaps.
+   - Recalculate learning priorities.
+   - Dynamically update the learning path and recommend the next activity.
+
+7. Overall Proposed Extension
+   - Existing approach: ML-based career prediction.
+   - Proposed extension: ML + Knowledge Graph + Competency Analysis + Prerequisite Reasoning + Personalized Learning Path + Gemma 3:1B.
+   - The Knowledge Graph provides the structural relationship between careers, skills, concepts, courses and prerequisites.
+   - ML provides the initial career prediction.
+   - Competency analysis identifies the learner's skill gaps.
+   - Graph-based reasoning determines prerequisite-aware learning order.
+   - Gemma 3:1B converts the structured learning path into a personalized career roadmap and learning guidance.
+   - Continuous assessments update the learner model and enable adaptive learning.
+

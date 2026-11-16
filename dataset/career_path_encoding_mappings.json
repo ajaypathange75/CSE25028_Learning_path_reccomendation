@@ -1,0 +1,170 @@
+{
+  "feature_columns": [
+    "I am the life of the party.",
+    "I get stressed out easily.",
+    "I pay attention to details.",
+    "I sympathize with others’ feelings.",
+    "I have a rich vocabulary.",
+    "What is your CGPA range?",
+    "Which stream are you studying?",
+    "Do you prefer practical assignments over theory?",
+    "Rate your logical reasoning ability.",
+    "How do you rate your problem-solving skills.",
+    "Rate your programming knowledge.",
+    "How are your communication skills?",
+    "Rate your creativity level.",
+    "Primary interest",
+    "Experience level",
+    "Projects completed",
+    "Certifications",
+    "Preferred career type",
+    "Preferred industry",
+    "Preferred work environment",
+    "Career goal"
+  ],
+  "target_column": "recommended_career",
+  "feature_mappings": {
+    "I am the life of the party.": {
+      "Agree": 0,
+      "Disagree": 1,
+      "Neutral": 2
+    },
+    "I get stressed out easily.": {
+      "Agree": 0,
+      "Disagree": 1,
+      "Neutral": 2
+    },
+    "I pay attention to details.": {
+      "Agree": 0,
+      "Disagree": 1,
+      "Neutral": 2
+    },
+    "I sympathize with others’ feelings.": {
+      "Agree": 0,
+      "Disagree": 1,
+      "Neutral": 2
+    },
+    "I have a rich vocabulary.": {
+      "Agree": 0,
+      "Disagree": 1,
+      "Neutral": 2
+    },
+    "What is your CGPA range?": {
+      "6–8": 0,
+      "8–10": 1,
+      "<6": 2
+    },
+    "Which stream are you studying?": {
+      "CIVIL": 0,
+      "CSE": 1,
+      "ECE": 2,
+      "MECH": 3,
+      "Other": 4
+    },
+    "Do you prefer practical assignments over theory?": {
+      "No": 0,
+      "Sometimes": 1,
+      "Yes": 2
+    },
+    "Rate your logical reasoning ability.": {
+      "Average": 0,
+      "Excellent": 1,
+      "Good": 2,
+      "Poor": 3
+    },
+    "How do you rate your problem-solving skills.": {
+      "Average": 0,
+      "Excellent": 1,
+      "Good": 2,
+      "Poor": 3
+    },
+    "Rate your programming knowledge.": {
+      "Beginner": 0,
+      "Expert": 1,
+      "Intermediate": 2
+    },
+    "How are your communication skills?": {
+      "Average": 0,
+      "Excellent": 1,
+      "Good": 2,
+      "Poor": 3
+    },
+    "Rate your creativity level.": {
+      "Average": 0,
+      "Excellent": 1,
+      "Good": 2,
+      "Poor": 3
+    },
+    "Primary interest": {
+      "Business and Management": 0,
+      "Data and Analytics": 1,
+      "Design and Creativity": 2,
+      "Engineering": 3,
+      "Finance": 4,
+      "People and Communication": 5,
+      "Software and Technology": 6,
+      "Teaching and Research": 7
+    },
+    "Experience level": {
+      "Academic projects": 0,
+      "Internship": 1,
+      "No experience": 2,
+      "Work experience": 3
+    },
+    "Projects completed": {
+      "1–2 projects": 0,
+      "3–5 projects": 1,
+      "More than 5 projects": 2,
+      "None": 3
+    },
+    "Certifications": {
+      "1 certification": 0,
+      "2–3 certifications": 1,
+      "4+ certifications": 2,
+      "None": 3
+    },
+    "Preferred career type": {
+      "Analytical role": 0,
+      "Creative role": 1,
+      "Independent work": 2,
+      "Management role": 3,
+      "People-focused role": 4,
+      "Technical role": 5
+    },
+    "Preferred industry": {
+      "Any industry": 0,
+      "Education": 1,
+      "Finance": 2,
+      "Healthcare": 3,
+      "IT": 4,
+      "Manufacturing": 5,
+      "Media": 6
+    },
+    "Preferred work environment": {
+      "Flexible": 0,
+      "Hybrid": 1,
+      "Office": 2,
+      "Remote": 3
+    },
+    "Career goal": {
+      "Career change": 0,
+      "Entry-level job": 1,
+      "Higher studies": 2,
+      "Leadership role": 3,
+      "Specialist role": 4
+    }
+  },
+  "target_mapping": {
+    "Accountant": 0,
+    "Business Analyst": 1,
+    "Consultant": 2,
+    "Data Analyst": 3,
+    "Graphic Designer": 4,
+    "HR Manager": 5,
+    "Marketing Specialist": 6,
+    "Project Manager": 7,
+    "Software Engineer": 8,
+    "Teacher": 9,
+    "Web Developer": 10
+  }
+}

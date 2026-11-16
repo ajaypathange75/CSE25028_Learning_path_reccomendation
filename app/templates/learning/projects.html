@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Capstone Projects - AI Career Path: {{ target_career }}{% endblock %}
+
+{% block content %}
+<div style="max-width: 980px; margin: 20px auto;">
+  <!-- Header Banner -->
+  <div class="page-hero-banner" style="margin-bottom: 28px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <span class="badge badge-secondary" style="margin-bottom: 8px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Practical Portfolio Demonstrations
+        </span>
+        <h1 style="font-size: 2.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+          {{ target_career }} Project Portfolio
+        </h1>
+        <p style="color: var(--text-body); max-width: 680px;">
+          Industry-aligned capstone projects designed to consolidate theoretical competencies into demonstrable GitHub repositories and live deployments.
+        </p>
+      </div>
+      <div style="background-color: var(--bg-page); padding: 12px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); text-align: right;">
+        <div style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Completed Capstones</div>
+        <div style="font-size: 1.4rem; font-weight: 800; color: var(--secondary);">{{ user_projects | selectattr("status", "equalto", "completed") | list | length }} / 2</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Tabs: Recommended vs My Portfolio -->
+  <div class="glass-card" style="margin-bottom: 30px;" data-tabs-group>
+    <div class="nav-tabs">
+      <div class="nav-tab-item active" data-tab-target="tab-recommended">Recommended AI Capstones</div>
+      <div class="nav-tab-item" data-tab-target="tab-submission">Submit & Track Project</div>
+      <div class="nav-tab-item" data-tab-target="tab-portfolio">My Project History ({{ user_projects | length }})</div>
+    </div>
+
+    <!-- Tab 1: Recommended Capstones Catalog -->
+    <div class="tab-pane" id="tab-recommended" style="display: block;">
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--secondary); margin-bottom: 8px;">
+        Curated Capstones for {{ target_career }}
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 20px;">
+        These end-to-end projects integrate multiple concepts from your roadmap into a cohesive portfolio piece.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        {% for p in recommended_projects %}
+          <div style="background-color: var(--bg-page); border: 1px solid var(--border-color); border-left: 5px solid var(--secondary); border-radius: var(--radius-sm); padding: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin: 0;">
+                {{ p.title }}
+              </h4>
+              <span class="badge badge-secondary">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                Knowledge Graph Recommended
+              </span>
+            </div>
+            
+            <p style="color: var(--text-body); font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;">
+              {{ p.description }}
+            </p>
+
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              {% for cid in p.concept_ids %}
+                <a href="/learning/concept/{{ cid }}" style="background-color: #ffffff; padding: 4px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; color: var(--primary); text-decoration: none; border: 1px solid var(--border-color); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                  <span>Study Related Concept</span>
+                  <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Tab 2: Submit New Project -->
+    <div class="tab-pane" id="tab-submission" style="display: none;">
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">
+        Record Project Milestone
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 20px;">
+        Submit your project repository or deployed application to boost your Career Readiness score.
+      </p>
+
+      <form action="/learning/projects/submit" method="POST" id="submit-project-form">
+        <input type="hidden" name="career_target" value="{{ target_career }}">
+        
+        <div class="form-group">
+          <label class="form-label" for="title">Project Title</label>
+          <input type="text" name="title" id="title" class="form-control" required placeholder="e.g. Distributed LLM Inference Pipeline & Fast-API Server">
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label class="form-label" for="description" style="margin: 0;">Project Summary & Technical Architecture</label>
+            <span id="desc-char-count" style="font-size: 0.78rem; color: var(--text-muted);">0 / 500</span>
+          </div>
+          <textarea name="description" id="description" rows="3" class="form-control" maxlength="500" placeholder="Summarize machine learning algorithms applied, dataset sources, metrics achieved (F1, Accuracy, Latency), and deployment stack..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="submission_link">GitHub Repository / Live Demo URL</label>
+          <input type="url" name="submission_link" id="submission_link" class="form-control" placeholder="https://github.com/username/ai-project">
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 10px; background-color: var(--bg-page); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+          <input type="checkbox" name="mark_completed" id="mark_completed" value="true" style="width: 18px; height: 18px; accent-color: var(--primary);">
+          <label for="mark_completed" style="color: var(--text-main); font-size: 0.92rem; font-weight: 700; cursor: pointer; margin: 0;">
+            Mark as Completed (contributes 15% to Overall AI Career Readiness)
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="save-project-btn">
+          <span>Save Project to Portfolio</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Tab 3: My Project History -->
+    <div class="tab-pane" id="tab-portfolio" style="display: none;">
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px;">
+        My Submitted Capstone Records
+      </h3>
+
+      {% if user_projects %}
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          {% for up in user_projects %}
+            <div style="background-color: var(--bg-page); padding: 16px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <strong style="color: var(--text-main); font-size: 1.05rem; display: block; margin-bottom: 4px;">{{ up.title }}</strong>
+                <div style="color: var(--text-body); font-size: 0.9rem; margin-bottom: 6px;">{{ up.description or 'No description provided' }}</div>
+                {% if up.submission_link %}
+                  <a href="{{ up.submission_link }}" target="_blank" rel="noopener noreferrer" style="color: var(--primary); font-size: 0.85rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                    <span>{{ up.submission_link }}</span>
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </a>
+                {% endif %}
+              </div>
+              <div>
+                {% if up.status == 'completed' %}
+                  <span class="badge badge-mastered">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    Completed
+                  </span>
+                {% else %}
+                  <span class="badge badge-developing">
+                    <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    In Progress
+                  </span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div style="text-align: center; padding: 36px 20px; color: var(--text-muted); background-color: var(--bg-page); border-radius: var(--radius-sm); border: 1px dashed var(--border-color);">
+          <p>No personal project records submitted yet.</p>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="document.querySelector('[data-tab-target=\'tab-submission\']').click();" style="margin-top: 10px;">
+            + Record Your First Project
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const descArea = document.getElementById('description');
+    const charCount = document.getElementById('desc-char-count');
+    if (descArea && charCount) {
+      descArea.addEventListener('input', function () {
+        charCount.textContent = `${descArea.value.length} / 500`;
+      });
+    }
+  });
+</script>
+{% endblock %}

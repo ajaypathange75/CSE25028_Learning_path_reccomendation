@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}AI Career Path - Recommendation & Personalized Learning Platform{% endblock %}</title>
+  <meta name="description" content="AI Career Path: Next-Generation Career Path Recommendation and Personalized Learning System with Knowledge Graphs and Adaptive AI">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="/static/css/style.css">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Navigation Header (Light Theme) -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="/" class="brand-logo" id="brand-logo">
+        <div class="logo-badge">AI</div>
+        <div>
+          <div><span class="brand-title">CareerPath</span><span class="brand-accent">AI</span></div>
+          <span class="brand-tagline">AI Career Path Intelligence</span>
+        </div>
+      </a>
+      
+      <nav>
+        <ul class="nav-links">
+          {% if user %}
+            <li><a href="/dashboard" class="nav-link {% if request is defined and request.url.path.startswith('/dashboard') %}active{% endif %}" id="nav-dashboard">Dashboard</a></li>
+            <li><a href="/career/assessment" class="nav-link {% if request is defined and request.url.path.startswith('/career') %}active{% endif %}" id="nav-assessment">Career Assessment</a></li>
+            <li><a href="/learning/roadmap" class="nav-link {% if request is defined and (request.url.path == '/learning/roadmap' or request.url.path.startswith('/learning/concept') or request.url.path.startswith('/learning/activity')) %}active{% endif %}" id="nav-roadmap">AI Roadmap</a></li>
+            <li><a href="/learning/projects" class="nav-link {% if request is defined and request.url.path.startswith('/learning/projects') %}active{% endif %}" id="nav-projects">Capstones</a></li>
+            <li><a href="/assessment/history" class="nav-link {% if request is defined and request.url.path.startswith('/assessment') %}active{% endif %}" id="nav-history">Quiz History</a></li>
+            <li><a href="/profile" class="nav-link {% if request is defined and request.url.path.startswith('/profile') %}active{% endif %}" id="nav-profile">Profile</a></li>
+            <li><a href="/logout" class="nav-btn-logout" id="nav-logout">Sign Out</a></li>
+          {% else %}
+            <li><a href="/login" class="nav-link {% if request is defined and request.url.path == '/login' %}active{% endif %}" id="nav-login">Sign In</a></li>
+            <li><a href="/register" class="nav-btn" id="nav-register">Get Started Free</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container with AI Career Path Thematic Substrate -->
+  <main>
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- Global Professional Footer (Light Theme) -->
+  <footer>
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div style="text-align: left;">
+          <strong style="color: var(--text-main); font-size: 0.95rem;">AI Career Path Recommendation & Adaptive Learning System</strong>
+          <p style="margin-top: 4px; font-size: 0.85rem; color: var(--text-muted);">
+            Empowering students and professionals to navigate machine learning, data science, and AI engineering careers with structured knowledge graphs and Bayesian mastery tracking.
+          </p>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted);">
+          &copy; 2026 AI Career Path. Built with FastAPI & Gemma 3:1B.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main Client JS -->
+  <script src="/static/js/main.js"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

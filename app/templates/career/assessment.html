@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% block title %}Career Assessment Questionnaire - AI Career Path{% endblock %}
+
+{% block content %}
+<div style="max-width: 960px; margin: 20px auto;" id="career-assessment-wizard">
+  <!-- Header Banner -->
+  <div class="page-hero-banner" style="padding: 28px 32px; margin-bottom: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <span class="badge badge-primary" style="margin-bottom: 8px;">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+          Machine Learning Evaluation
+        </span>
+        <h1 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+          AI Career Path Assessment
+        </h1>
+        <p style="color: var(--text-body); font-size: 0.98rem; max-width: 650px;">
+          Evaluate your personality, academic credentials, programming fluency, and industry preferences across 21 calibrated dimensions to predict your ideal AI trajectory.
+        </p>
+      </div>
+      
+      <!-- Progress Pill -->
+      <div style="text-align: right; background-color: var(--bg-page); padding: 10px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+        <div style="font-size: 0.78rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">Assessment Progress</div>
+        <div id="assessment-progress-badge" style="font-size: 1.2rem; font-weight: 800; color: var(--primary);">21 / 21 Ready</div>
+      </div>
+    </div>
+  </div>
+
+  {% if error %}
+    <div class="alert alert-danger" id="assessment-error">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <strong>Validation Notice:</strong> {{ error }}
+    </div>
+  {% endif %}
+
+  <!-- Step Wizard Navigation Indicator -->
+  <div class="wizard-steps">
+    <div class="wizard-step active" data-step-idx="0">
+      <div class="wizard-step-circle">1</div>
+      <div class="wizard-step-title">Personality (5)</div>
+    </div>
+    <div class="wizard-step" data-step-idx="1">
+      <div class="wizard-step-circle">2</div>
+      <div class="wizard-step-title">Academics (3)</div>
+    </div>
+    <div class="wizard-step" data-step-idx="2">
+      <div class="wizard-step-circle">3</div>
+      <div class="wizard-step-title">Tech Skills (5)</div>
+    </div>
+    <div class="wizard-step" data-step-idx="3">
+      <div class="wizard-step-circle">4</div>
+      <div class="wizard-step-title">Preferences (8)</div>
+    </div>
+  </div>
+
+  <form action="/career/assessment" method="POST" id="career-assessment-form">
+    <!-- Step 1: Personality Traits (5 questions) -->
+    <div class="glass-card wizard-step-card" id="step-card-0" style="margin-bottom: 24px;">
+      <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; margin: 0;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--primary-light); color: var(--primary); display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800;">1</span>
+            Personality & Behavioral Profile
+          </h2>
+          <span class="badge badge-primary">Questions 1 to 5</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div class="form-group">
+          <label class="form-label" for="q1_party">1. I am the life of the party.</label>
+          <select name="q1_party" id="q1_party" class="form-select" required>
+            <option value="Agree">Agree</option>
+            <option value="Neutral" selected>Neutral</option>
+            <option value="Disagree">Disagree</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q2_stressed">2. I get stressed out easily.</label>
+          <select name="q2_stressed" id="q2_stressed" class="form-select" required>
+            <option value="Agree">Agree</option>
+            <option value="Neutral" selected>Neutral</option>
+            <option value="Disagree">Disagree</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q3_details">3. I pay attention to details.</label>
+          <select name="q3_details" id="q3_details" class="form-select" required>
+            <option value="Agree" selected>Agree</option>
+            <option value="Neutral">Neutral</option>
+            <option value="Disagree">Disagree</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q4_sympathize">4. I sympathize with others' feelings.</label>
+          <select name="q4_sympathize" id="q4_sympathize" class="form-select" required>
+            <option value="Agree" selected>Agree</option>
+            <option value="Neutral">Neutral</option>
+            <option value="Disagree">Disagree</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q5_vocab">5. I have a rich vocabulary.</label>
+          <select name="q5_vocab" id="q5_vocab" class="form-select" required>
+            <option value="Agree">Agree</option>
+            <option value="Neutral" selected>Neutral</option>
+            <option value="Disagree">Disagree</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+        <button type="button" class="btn btn-primary wizard-btn-next">
+          <span>Next: Academic Background</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Academic Profile (3 questions) -->
+    <div class="glass-card wizard-step-card" id="step-card-1" style="margin-bottom: 24px; display: none;">
+      <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--secondary); display: flex; align-items: center; gap: 10px; margin: 0;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--secondary-light); color: var(--secondary); display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800;">2</span>
+            Academic Track Record
+          </h2>
+          <span class="badge badge-secondary">Questions 6 to 8</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div class="form-group">
+          <label class="form-label" for="q6_cgpa">6. What is your CGPA range?</label>
+          <select name="q6_cgpa" id="q6_cgpa" class="form-select" required>
+            <option value="8–10" {% if profile and profile.cgpa_range == '8–10' %}selected{% endif %}>8–10</option>
+            <option value="6–8" {% if not profile or profile.cgpa_range == '6–8' %}selected{% endif %}>6–8</option>
+            <option value="<6" {% if profile and profile.cgpa_range == '<6' %}selected{% endif %}>&lt;6</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q7_stream">7. Which stream are you studying?</label>
+          <select name="q7_stream" id="q7_stream" class="form-select" required>
+            {% for s in ["CSE", "ECE", "MECH", "CIVIL", "Other"] %}
+              <option value="{{ s }}" {% if profile and profile.stream == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q8_practical">8. Do you prefer practical assignments over theory?</label>
+          <select name="q8_practical" id="q8_practical" class="form-select" required>
+            <option value="Yes" {% if not profile or profile.practical_preference == 'Yes' %}selected{% endif %}>Yes</option>
+            <option value="Sometimes" {% if profile and profile.practical_preference == 'Sometimes' %}selected{% endif %}>Sometimes</option>
+            <option value="No" {% if profile and profile.practical_preference == 'No' %}selected{% endif %}>No</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+        <button type="button" class="btn btn-secondary wizard-btn-prev">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span>Back: Personality</span>
+        </button>
+        <button type="button" class="btn btn-primary wizard-btn-next">
+          <span>Next: Technical Skills</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3: Skill Self-Evaluation (5 questions) -->
+    <div class="glass-card wizard-step-card" id="step-card-2" style="margin-bottom: 24px; display: none;">
+      <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--success); display: flex; align-items: center; gap: 10px; margin: 0;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--success-light); color: var(--success); display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800;">3</span>
+            Technical & Analytical Ratings
+          </h2>
+          <span class="badge badge-mastered">Questions 9 to 13</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div class="form-group">
+          <label class="form-label" for="q9_reasoning">9. Rate your logical reasoning ability.</label>
+          <select name="q9_reasoning" id="q9_reasoning" class="form-select" required>
+            {% for opt in ["Excellent", "Good", "Average", "Poor"] %}
+              <option value="{{ opt }}" {% if profile and profile.logical_reasoning == opt %}selected{% elif opt == 'Good' %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q10_problem_solving">10. How do you rate your problem-solving skills.</label>
+          <select name="q10_problem_solving" id="q10_problem_solving" class="form-select" required>
+            {% for opt in ["Excellent", "Good", "Average", "Poor"] %}
+              <option value="{{ opt }}" {% if profile and profile.problem_solving == opt %}selected{% elif opt == 'Good' %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q11_programming">11. Rate your programming knowledge.</label>
+          <select name="q11_programming" id="q11_programming" class="form-select" required>
+            {% for opt in ["Beginner", "Intermediate", "Expert"] %}
+              <option value="{{ opt }}" {% if profile and profile.programming_knowledge == opt %}selected{% elif opt == 'Intermediate' %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q12_communication">12. How are your communication skills?</label>
+          <select name="q12_communication" id="q12_communication" class="form-select" required>
+            {% for opt in ["Excellent", "Good", "Average", "Poor"] %}
+              <option value="{{ opt }}" {% if profile and profile.communication_skills == opt %}selected{% elif opt == 'Good' %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q13_creativity">13. Rate your creativity level.</label>
+          <select name="q13_creativity" id="q13_creativity" class="form-select" required>
+            {% for opt in ["Excellent", "Good", "Average", "Poor"] %}
+              <option value="{{ opt }}" {% if profile and profile.creativity_level == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+        <button type="button" class="btn btn-secondary wizard-btn-prev">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span>Back: Academics</span>
+        </button>
+        <button type="button" class="btn btn-primary wizard-btn-next">
+          <span>Next: Career Preferences</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 4: Preferences, Experience & Goals (8 questions) -->
+    <div class="glass-card wizard-step-card" id="step-card-3" style="margin-bottom: 24px; display: none;">
+      <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 10px; margin: 0;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background-color: var(--accent-light); color: var(--accent); display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800;">4</span>
+            Experience, Ambitions & Environment
+          </h2>
+          <span class="badge" style="background-color: var(--accent-light); color: var(--accent); border-color: var(--accent-border);">Questions 14 to 21</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div class="form-group">
+          <label class="form-label" for="q14_interest">14. Primary interest</label>
+          <select name="q14_interest" id="q14_interest" class="form-select" required>
+            {% for opt in ["Software and Technology", "Data and Analytics", "Design and Creativity", "Business and Management", "People and Communication", "Finance", "Teaching and Research", "Engineering"] %}
+              <option value="{{ opt }}" {% if profile and profile.primary_interest == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q15_experience">15. Experience level</label>
+          <select name="q15_experience" id="q15_experience" class="form-select" required>
+            {% for opt in ["No experience", "Academic projects", "Internship", "Work experience"] %}
+              <option value="{{ opt }}" {% if profile and profile.experience_level == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q16_projects">16. Projects completed</label>
+          <select name="q16_projects" id="q16_projects" class="form-select" required>
+            {% for opt in ["None", "1–2 projects", "3–5 projects", "More than 5 projects"] %}
+              <option value="{{ opt }}" {% if profile and profile.projects_completed == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q17_certifications">17. Certifications</label>
+          <select name="q17_certifications" id="q17_certifications" class="form-select" required>
+            {% for opt in ["None", "1 certification", "2–3 certifications", "4+ certifications"] %}
+              <option value="{{ opt }}" {% if profile and profile.certifications == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q18_career_type">18. Preferred career type</label>
+          <select name="q18_career_type" id="q18_career_type" class="form-select" required>
+            {% for opt in ["Technical role", "Analytical role", "Creative role", "Management role", "People-focused role", "Independent work"] %}
+              <option value="{{ opt }}" {% if profile and profile.preferred_career_type == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q19_industry">19. Preferred industry</label>
+          <select name="q19_industry" id="q19_industry" class="form-select" required>
+            {% for opt in ["IT", "Finance", "Education", "Healthcare", "Manufacturing", "Media", "Any industry"] %}
+              <option value="{{ opt }}" {% if profile and profile.preferred_industry == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q20_work_env">20. Preferred work environment</label>
+          <select name="q20_work_env" id="q20_work_env" class="form-select" required>
+            {% for opt in ["Office", "Remote", "Hybrid", "Flexible"] %}
+              <option value="{{ opt }}" {% if profile and profile.preferred_work_environment == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q21_career_goal">21. Career goal</label>
+          <select name="q21_career_goal" id="q21_career_goal" class="form-select" required>
+            {% for opt in ["Entry-level job", "Specialist role", "Leadership role", "Higher studies", "Career change"] %}
+              <option value="{{ opt }}" {% if profile and profile.career_goal == opt %}selected{% endif %}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border-color); flex-wrap: wrap; gap: 12px;">
+        <button type="button" class="btn btn-secondary wizard-btn-prev">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span>Back: Technical Skills</span>
+        </button>
+        <button type="submit" class="btn btn-primary btn-lg" id="submit-assessment-btn">
+          <span>Submit Assessment & Predict AI Career</span>
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

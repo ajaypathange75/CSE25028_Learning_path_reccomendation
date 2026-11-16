@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - AI Career Path Platform{% endblock %}
+
+{% block content %}
+<div style="max-width: 440px; margin: 40px auto;">
+  <div class="glass-card" style="padding: 36px 32px;">
+    <!-- Logo Badge & Header -->
+    <div style="text-align: center; margin-bottom: 28px;">
+      <div class="logo-badge" style="margin: 0 auto 14px; width: 44px; height: 44px; font-size: 1.2rem;">
+        AI
+      </div>
+      <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 6px;">
+        Welcome Back
+      </h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        Sign in to access your AI Career Path dashboard
+      </p>
+    </div>
+
+    {% if error %}
+      <div class="alert alert-danger" id="login-error">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>{{ error }}</span>
+      </div>
+    {% endif %}
+
+    <form action="/login" method="POST" id="login-form">
+      <div class="form-group">
+        <label class="form-label" for="username_or_email">Username or Email</label>
+        <input 
+          type="text" 
+          id="username_or_email" 
+          name="username_or_email" 
+          class="form-control" 
+          required 
+          value="{{ username_or_email or '' }}"
+          placeholder="learner@example.com"
+          autocomplete="username"
+        >
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label class="form-label" for="password" style="margin-bottom: 0;">Password</label>
+          <button type="button" class="toggle-password-btn" data-target-input="password" style="background: none; border: none; color: var(--primary); font-size: 0.82rem; font-weight: 700; cursor: pointer;">
+            Show
+          </button>
+        </div>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control" 
+          required 
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;" id="login-submit-btn">
+        <span>Sign In to Career Path</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </button>
+    </form>
+
+    <div style="text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.92rem;">
+      New to AI Career Path? <a href="/register" style="color: var(--primary); text-decoration: none; font-weight: 700;">Create Account</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

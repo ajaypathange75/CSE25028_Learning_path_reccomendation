@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Service Notice: Gemma 3:1B Offline - AI Career Path{% endblock %}
+
+{% block content %}
+<div style="max-width: 660px; margin: 40px auto; text-align: center;">
+  <div class="glass-card" style="padding: 40px 32px; border-top: 5px solid var(--warning);">
+    <div style="width: 64px; height: 64px; border-radius: 50%; background-color: var(--warning-light); color: var(--warning); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 1px solid var(--warning-border);">
+      <svg class="icon icon-xl" style="color: var(--warning);" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+
+    <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 12px; color: var(--text-main);">
+      Gemma 3:1B AI Copilot Offline
+    </h1>
+
+    <p style="color: var(--text-body); font-size: 1rem; line-height: 1.6; margin-bottom: 24px;">
+      The application could not establish an active connection to the local <strong>Gemma 3:1B</strong> LLM served through Ollama. Per the AI Career Path architecture, AI generation is not silently substituted with synthetic fallbacks.
+    </p>
+
+    {% if error_message %}
+      <div style="background-color: var(--danger-light); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--danger-border); color: var(--danger-text); font-size: 0.85rem; font-family: monospace; margin-bottom: 24px; text-align: left; word-break: break-all;">
+        {{ error_message }}
+      </div>
+    {% endif %}
+
+    <div style="background-color: var(--bg-page); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-md); margin-bottom: 28px; text-align: left;">
+      <strong style="color: var(--primary); font-size: 0.95rem;">To resolve this on your local machine:</strong>
+      <ol style="padding-left: 20px; color: var(--text-body); font-size: 0.9rem; margin-top: 10px; line-height: 1.6;">
+        <li style="margin-bottom: 6px;">Ensure Ollama is installed and running: <code>ollama serve</code></li>
+        <li style="margin-bottom: 6px;">Pull the specified model: <code>ollama pull gemma3:1b</code></li>
+        <li>Confirm local service responds at <code>http://localhost:11434</code></li>
+      </ol>
+      <div class="code-block" style="margin-top: 14px;">
+        <code>ollama run gemma3:1b</code>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <a href="/assessment/quiz/{{ concept_id }}" class="btn btn-primary" id="retry-gemma-btn" style="display: inline-flex; align-items: center; gap: 6px;">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        <span>Retry Generating AI Quiz</span>
+      </a>
+      <a href="/learning/concept/{{ concept_id }}" class="btn btn-secondary">
+        Return to Concept
+      </a>
+      <a href="/dashboard" class="btn btn-secondary">
+        Dashboard
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
